@@ -1,0 +1,3 @@
+[submodule "generator/estree"]
+	path = generator/estree
+	url = https://github.com/estree/estree

@@ -113,18 +113,14 @@ filesFound.forEach(file => {
     let markdownJson = parseMarkdown(readFileToString(file), relativePath);
     parsedFiles = parsedFiles.concat(markdownJson);
 });
-
 function mergeKnownInfo(parsedFiles, parent = "", json = {}) {
     parsedFiles.forEach(md => {
         let name = parent === "" ? md.title : parent + "/" + md.title;
         //if(!name.includes("Declarations")) return json;
-        if (json[name] && json[name]["content"]) {
-            json[name]["content"].push({ content: md.content, file: md.file });
+        if (json[name]) {
+            json[name].push({ content: md.content, file: md.file });
         } else {
-            json[name] = {
-                content: [{ content: md.content, file: md.file }],
-                children: []
-            }
+            json[name] = [{ content: md.content, file: md.file }]
         }
         json = Object.assign(json, mergeKnownInfo(md.subSections, name, json));
         //json[name]["children"] = Object.keys(newChildren).length === 0 ? children : children.concat(newChildren);
