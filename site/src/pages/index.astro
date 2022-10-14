@@ -1,6 +1,6 @@
 ---
+import SubSection from "../components/SubSection.astro";
 import Layout from "../layouts/Layout.astro";
-import fs from "fs";
 import estree from "./estree.json";
 ---
 
@@ -12,12 +12,7 @@ import estree from "./estree.json";
 			{	
 				Object.keys(estree).map((key) => {
 					const i = (estree as any)[key];
-					return (
-						<li>
-							<h1 class="text-gradient">{key}</h1>
-							<p>{JSON.stringify(i)}</p>
-						</li>
-						);
+					return (<SubSection title={key} content={i}/>);
 					}
 				)
 			}
@@ -30,6 +25,18 @@ import estree from "./estree.json";
 		margin: auto;
 		padding: 1.5rem;
 	}
+	.link-card-flex {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 0;
+	}
+	ul{
+		list-style: none;
+	}
+</style>
+
+<style is:global>
 	h1 {
 		font-size: 3rem;
 		font-weight: 800;
@@ -41,11 +48,5 @@ import estree from "./estree.json";
 		-webkit-text-fill-color: transparent;
 		background-size: 400%;
 		background-position: 0%;
-	}
-	.link-card-flex {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		padding: 0;
 	}
 </style>

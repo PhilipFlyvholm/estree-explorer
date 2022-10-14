@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const md = require("markdown").markdown;
+const MarkdownIt = require('markdown-it');
+
 
 const fullPath = path.join(__dirname, 'estree');
 const ignore = ["LICENSE", "README.md", "deprecated.md", "governance.md", "stage3", "experimental"];
@@ -34,47 +36,7 @@ function peek(stack, n) {
 }
 
 function parseMarkdown(file, filePath) {
-    const tree = md.parse(file);
-    const description = []
-    const stack = [];
-    tree.forEach(element => {
-        let type = element[0];
-        switch (type) {
-            case "header":
-                //Start on new
-                const level = element[1].level;
-                let section = {
-                    level: level,
-                    title: element[2],
-                    subSections: [],
-                    content: [],
-                    file: filePath
-                }
-                stack.push(section);
-                break;
-            case "para":
-                for (let line = 1; line < element.length; line++) {
-                    let text = element[line];
-                    if (typeof text === "string") {
-                        text = text.replace(/<!--.*-->/g, "");
-                    }
-                    const current = stack[stack.length - 1];
-                    if (current) current.content.push(text);
-                    else description.push(text);
-                }
-                break;
-            case "m":
-                //Who cares ;)
-                break;
-            default:
-                if (!type) {
-                    console.log("unkown element", element);
-                }
-                console.log(type, "not implemented yet");
-                break;
-        }
-    });
-    //console.log("Description", description);
+    let stack = new Parser(file, filePath).parse();
     let depthStack = [];
     //Add depth to stack
     for (let i = 0; i < stack.length; i++) {
@@ -92,6 +54,7 @@ function parseMarkdown(file, filePath) {
     return depthStack;
 }
 
+
 function insertChild(current, child) {
     if (current.subSections.length === 0) {
         current.subSections.push(child);
@@ -104,26 +67,145 @@ function insertChild(current, child) {
     }
 }
 
+class Parser {
+    constructor(file, filePath) {
+        this.file = file;
+        this.filePath = filePath;
+        this.stack = [];
+        this.description = [];
+        this.pos = 0;
+        const md = new MarkdownIt();
+        this.tree = md.parse(file, {});
+        this.parse();
+    }
+    current = () => peek(this.stack, -1);
+
+    parseParagraf = () => {
+        let paragraf = "<p>";
+        this.pos++;
+        while ((this.tree.length <= this.pos) || this.tree[this.pos].type != "paragraph_close") {
+            switch (this.tree[this.pos].type) {
+                case "inline":
+                    paragraf += this.tree[this.pos].content;
+                    break;
+                default:
+                    console.log("Unsupported child of paragraf", this.tree[this.pos].type);
+                    break;
+            }
+            this.pos++;
+        }
+        paragraf += "</p>";
+        if (this.stack.length === 0) {
+            this.description.push(paragraf);
+        } else {
+            this.current().content.push(paragraf);
+        }
+
+        //return;
+    }
+    parseHeading = (token) => {
+        let title = "";
+        this.pos++;
+        while ((this.tree.length <= this.pos) || this.tree[this.pos].type != "heading_close") {
+            switch (this.tree[this.pos].type) {
+                case "inline":
+                    title += this.tree[this.pos].content;
+                    break;
+                case "heading_open": {
+                    this.parseHeading(this.tree[this.pos]);
+                    let subSection = this.stack.pop();
+                    let current = this.stack.pop();
+                    current.subSections.push(subSection);
+                    this.stack.push(current);
+                    break;
+                }
+                default:
+                    console.log("Unsupported child of heading", this.tree[this.pos].type);
+                    break;
+            }
+            this.pos++;
+        }
+        let level = Number(token.tag.substring(1));
+        let section = {
+            level: level,
+            title: title,
+            subSections: [],
+            content: [],
+            file: this.filePath
+        }
+        this.stack.push(section);
+    }
+
+    parseFence = (token) => {
+        let lang = token.info ?? "unknown";
+        let code = `<pre><code class="language-${lang}">${token.content}</code></pre>`
+        if (this.stack.length === 0) {
+            this.description.push(code);
+        } else {
+            this.current().content.push(code);
+        }
+    }
+
+    parse = () => {
+        while (this.tree.length > this.pos) {
+            const token = this.tree[this.pos];
+            switch (token.type) {
+                case "paragraph_open": {
+                    this.parseParagraf();
+                    break;
+                }
+                case "heading_open": {
+                    this.parseHeading(token);
+
+                    break;
+                }
+
+                case "fence":
+                    this.parseFence(token);
+                    break;
+                case "list_item_open":
+                case "list_item_close":
+                case "bullet_list_open":
+                case "bullet_list_close":
+                    //Ignore
+                    break;
+                default:
+                    console.log("Not implemented", token.type);
+                    break;
+            }
+            this.pos++;
+        }
+        return this.stack;
+    }
+}
+
+//parseMarkdown(readFileToString(findAllFilesInDir(fullPath)[0]), "D:/Code/estree-explorer/estree/es2019.md");
 //["D:\\Code\\estree-explorer\\estree\\es2019.md"]
 const filesFound = findAllFilesInDir(fullPath);
+
 let parsedFiles = []
+//parsedFiles = parseMarkdown(readFileToString(findAllFilesInDir(fullPath)[0]), "D:/Code/estree-explorer/estree/es2019.md");
 
 filesFound.forEach(file => {
     let relativePath = file.substring(fullPath.length).replace(/\\/g, "/");
     let markdownJson = parseMarkdown(readFileToString(file), relativePath);
     parsedFiles = parsedFiles.concat(markdownJson);
 });
+
 function mergeKnownInfo(parsedFiles, parent = "", json = {}) {
     parsedFiles.forEach(md => {
         let name = parent === "" ? md.title : parent + "/" + md.title;
-        //if(!name.includes("Declarations")) return json;
-        if (json[name]) {
-            json[name].push({ content: md.content, file: md.file });
+        console.log(md);
+        if(md.content.length == 0) return json;
+        if (json[name] && json[name][md.file]) {
+            json[name][md.file].concat(md.content);
+        } else if(json[name]){
+            json[name][md.file] = md.content;
         } else {
-            json[name] = [{ content: md.content, file: md.file }]
+            json[name] = {};
+            json[name][md.file] = md.content;
         }
-        json = Object.assign(json, mergeKnownInfo(md.subSections, name, json));
-        //json[name]["children"] = Object.keys(newChildren).length === 0 ? children : children.concat(newChildren);
+        json = mergeKnownInfo(md.subSections, name, json);
     });
     return json;
 }

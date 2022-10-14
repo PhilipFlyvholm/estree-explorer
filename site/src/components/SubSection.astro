@@ -1,0 +1,34 @@
+---
+
+export interface Props {
+	title: string;
+    content: any;
+}
+
+const { title, content } = Astro.props;
+---
+<li>
+    <h1 class="text-gradient">{title}</h1>
+    {
+        Object.keys(content).map(
+            file => {
+                const formattedFileName = file.substring(1, file.length-3);
+                return (<p class="pill">{formattedFileName}</p> <>{content[file].map((content:string[], i:number) => {return <div class="content-container" set:html={content}></div>})}</>)
+            })
+    }
+</li>
+
+<style>
+    .pill{
+        border-radius: 100px;
+        padding: 5px 10px;
+        background: blue;
+        display: inline-block;
+    }
+    .content-container{
+        background: #1b1c1f;
+        padding: .1rem 2rem;
+        margin: 0;
+        border-radius: 10px;
+    }
+</style>
