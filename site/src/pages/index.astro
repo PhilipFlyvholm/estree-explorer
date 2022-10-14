@@ -1,0 +1,51 @@
+---
+import Layout from "../layouts/Layout.astro";
+import fs from "fs";
+import estree from "./estree.json";
+---
+
+<Layout title="Welcome to Astro.">
+	<main>
+		<h1>Welcome to <span class="text-gradient">Estree explorer</span></h1>
+		
+		<ul role="list" class="link-card-flex">
+			{	
+				Object.keys(estree).map((key) => {
+					const i = (estree as any)[key];
+					return (
+						<li>
+							<h1 class="text-gradient">{key}</h1>
+							<p>{JSON.stringify(i)}</p>
+						</li>
+						);
+					}
+				)
+			}
+		</ul>
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 1.5rem;
+	}
+	h1 {
+		font-size: 3rem;
+		font-weight: 800;
+		margin: 0;
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}
+	.link-card-flex {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 0;
+	}
+</style>
