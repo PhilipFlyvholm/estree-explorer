@@ -80,13 +80,64 @@ class Parser {
     }
     current = () => peek(this.stack, -1);
 
+    parseInline = (inlineChildren) => {
+        let text = "";
+        inlineChildren.forEach(child => {
+            switch (child.type) {
+                case "text": {
+                    text += child.content;
+                    break;
+                }
+                case "link_open": {
+                    let attrs = child.attrs.map(attr => attr[0] + "=" + attr[1]).join(" ");
+                    text += `<a${attrs === "" ? "" : " " + attrs}>`;
+                    break;
+                }
+                case "link_close": {
+                    text += "</a>";
+                    break;
+                }
+                case "code_inline": {
+                    text += "<code>" + child.content + "</code>";
+                    break;
+                }
+                case "strong_open": {
+                    text += "<strong>";
+                    break;
+                }
+                case "strong_close": {
+                    text += "</strong>";
+                    break;
+                }
+                case "em_open": {
+                    text += "<em>";
+                    break;
+                }
+                case "em_close": {
+                    text += "</em>";
+                    break;
+                }
+                case "softbreak":{
+                    text += "<br/>"
+                    break;
+                }
+                default: {
+                    console.log("Unsupported child of inline", child.type);
+                    text += child.content;
+                    break;
+                }
+            }
+        });
+        return text;
+    }
+
     parseParagraf = () => {
         let paragraf = "<p>";
         this.pos++;
         while ((this.tree.length <= this.pos) || this.tree[this.pos].type != "paragraph_close") {
             switch (this.tree[this.pos].type) {
                 case "inline":
-                    paragraf += this.tree[this.pos].content;
+                    paragraf += this.parseInline(this.tree[this.pos].children);
                     break;
                 default:
                     console.log("Unsupported child of paragraf", this.tree[this.pos].type);
@@ -182,9 +233,8 @@ class Parser {
 //parseMarkdown(readFileToString(findAllFilesInDir(fullPath)[0]), "D:/Code/estree-explorer/estree/es2019.md");
 //["D:\\Code\\estree-explorer\\estree\\es2019.md"]
 const filesFound = findAllFilesInDir(fullPath);
-
 let parsedFiles = []
-//parsedFiles = parseMarkdown(readFileToString(findAllFilesInDir(fullPath)[0]), "D:/Code/estree-explorer/estree/es2019.md");
+//parsedFiles = parseMarkdown(readFileToString("/Users/philipflyvholm/Documents/Code/estree-explorer/generator/estree/es2022.md"), "D:/Code/estree-explorer/estree/es2022.md");
 
 filesFound.forEach(file => {
     let relativePath = file.substring(fullPath.length).replace(/\\/g, "/");
@@ -195,7 +245,6 @@ filesFound.forEach(file => {
 function mergeKnownInfo(parsedFiles, parent = "", json = {}) {
     parsedFiles.forEach(md => {
         let name = parent === "" ? md.title : parent + "/" + md.title;
-        console.log(md);
         if(md.content.length == 0) return json;
         if (json[name] && json[name][md.file]) {
             json[name][md.file].concat(md.content);

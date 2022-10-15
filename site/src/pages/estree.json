@@ -2,7 +2,7 @@
     "Programs": {
         "/es2015.md": [
             "<pre><code class=\"language-js\">extend interface Program {\n    sourceType: \"script\" | \"module\";\n    body: [ Statement | ModuleDeclaration ];\n}\n</code></pre>",
-            "<p>Parsers must specify `sourceType` as `\"module\"` if the source has been parsed as an ES6 module. Otherwise, `sourceType` must be `\"script\"`.</p>"
+            "<p>Parsers must specify <code>sourceType</code> as <code>\"module\"</code> if the source has been parsed as an ES6 module. Otherwise, <code>sourceType</code> must be <code>\"script\"</code>.</p>"
         ],
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Program <: Node {\n    type: \"Program\";\n    body: [ Directive | Statement ];\n}\n</code></pre>",
@@ -15,27 +15,27 @@
         ],
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Function <: Node {\n    id: Identifier | null;\n    params: [ Pattern ];\n    body: FunctionBody;\n}\n</code></pre>",
-            "<p>A function [declaration](#functiondeclaration) or [expression](#functionexpression).</p>"
+            "<p>A function <a href=#functiondeclaration>declaration</a> or <a href=#functionexpression>expression</a>.</p>"
         ],
         "/extensions/type-annotations.md": [
             "<pre><code class=\"language-js\">extend interface Function {\n    returnType: TypeAnnotation | null;\n}\n</code></pre>",
-            "<p>The `returnType` property is used to specify the type annotation for the return value of the function.</p>"
+            "<p>The <code>returnType</code> property is used to specify the type annotation for the return value of the function.</p>"
         ]
     },
     "Expressions": {
         "/es2015.md": [
             "<pre><code class=\"language-js\">interface Super <: Node {\n    type: \"Super\";\n}\n\nextend interface CallExpression {\n    callee: Expression | Super;\n    arguments: [ Expression | SpreadElement ];\n}\n\nextend interface MemberExpression {\n    object: Expression | Super;\n}\n</code></pre>",
-            "<p>A `super` pseudo-expression.</p>",
+            "<p>A <code>super</code> pseudo-expression.</p>",
             "<pre><code class=\"language-js\">interface SpreadElement <: Node {\n    type: \"SpreadElement\";\n    argument: Expression;\n}\n\nextend interface ArrayExpression {\n    elements: [ Expression | SpreadElement | null ];\n}\n\nextend interface NewExpression {\n    arguments: [ Expression | SpreadElement ];\n}\n</code></pre>",
-            "<p>Spread expression, e.g., `[head, ...iter, tail]`, `f(head, ...iter, ...tail)`.</p>",
-            "<p>**FIXME:** This describes the Esprima and Acorn behaviors, which is not currently aligned with the SpiderMonkey behavior.</p>",
+            "<p>Spread expression, e.g., <code>[head, ...iter, tail]</code>, <code>f(head, ...iter, ...tail)</code>.</p>",
+            "<p><strong>FIXME:</strong> This describes the Esprima and Acorn behaviors, which is not currently aligned with the SpiderMonkey behavior.</p>",
             "<pre><code class=\"language-js\">extend interface AssignmentExpression {\n    left: Pattern;\n}\n</code></pre>",
-            "<p>Note that pre-ES6 code was allowed [to pass references around](https://github.com/estree/estree/pull/20#issuecomment-74584758) and so `left` was much more liberal; an implementation might choose to continue using [old definition](https://github.com/estree/estree/blob/master/es5.md#assignmentexpression) if it needs to support such legacy code.</p>",
+            "<p>Note that pre-ES6 code was allowed <a href=https://github.com/estree/estree/pull/20#issuecomment-74584758>to pass references around</a> and so <code>left</code> was much more liberal; an implementation might choose to continue using <a href=https://github.com/estree/estree/blob/master/es5.md#assignmentexpression>old definition</a> if it needs to support such legacy code.</p>",
             "<pre><code class=\"language-js\">extend interface Property {\n    key: Expression;\n    method: boolean;\n    shorthand: boolean;\n    computed: boolean;\n}\n</code></pre>"
         ],
         "/es2018.md": [
             "<pre><code class=\"language-js\">extend interface ObjectExpression {\n    properties: [ Property | SpreadElement ];\n}\n</code></pre>",
-            "<p>Spread properties, e.g., `{a: 1, ...obj, b: 2}`.</p>"
+            "<p>Spread properties, e.g., <code>{a: 1, ...obj, b: 2}</code>.</p>"
         ],
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Expression <: Node { }\n</code></pre>",
@@ -45,13 +45,13 @@
     "Expressions/ArrowFunctionExpression": {
         "/es2015.md": [
             "<pre><code class=\"language-js\">interface ArrowFunctionExpression <: Function, Expression {\n    type: \"ArrowFunctionExpression\";\n    body: FunctionBody | Expression;\n    expression: boolean;\n    generator: false;\n}\n</code></pre>",
-            "<p>A fat arrow function expression, e.g., `let foo = (bar) => { /* body */ }`.</p>"
+            "<p>A fat arrow function expression, e.g., <code>let foo = (bar) => { /* body */ }</code>.</p>"
         ]
     },
     "Expressions/YieldExpression": {
         "/es2015.md": [
             "<pre><code class=\"language-js\">interface YieldExpression <: Expression {\n    type: \"YieldExpression\";\n    argument: Expression | null;\n    delegate: boolean;\n}\n</code></pre>",
-            "<p>A `yield` expression.</p>"
+            "<p>A <code>yield</code> expression.</p>"
         ]
     },
     "Classes": {
@@ -60,10 +60,10 @@
         ],
         "/es2022.md": [
             "<p>These language extensions cover following class features proposals:</p>",
-            "<p>[Class Fields]</p>",
-            "<p>[Static Class Features]</p>",
-            "<p>[Private Methods]</p>",
-            "<p>[Static Initialization Blocks].</p>"
+            "<p><a href=https://github.com/tc39/proposal-class-fields>Class Fields</a></p>",
+            "<p><a href=https://github.com/tc39/proposal-static-class-features/>Static Class Features</a></p>",
+            "<p><a href=https://github.com/tc39/proposal-private-methods>Private Methods</a></p>",
+            "<p><a href=https://github.com/tc39/proposal-class-static-block>Static Initialization Blocks</a>.</p>"
         ]
     },
     "Classes/ClassBody": {
@@ -80,7 +80,7 @@
         ],
         "/es2022.md": [
             "<pre><code class=\"language-js\">extend interface MethodDefinition {\n    key: Expression | PrivateIdentifier;\n}\n</code></pre>",
-            "<p>When `key` is a `PrivateIdentifier`, `computed` must be `false` and `kind` can not be `\"constructor\"`.</p>"
+            "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code> and <code>kind</code> can not be <code>\"constructor\"</code>.</p>"
         ]
     },
     "Classes/ClassDeclaration": {
@@ -96,7 +96,7 @@
     "Classes/MetaProperty": {
         "/es2015.md": [
             "<pre><code class=\"language-js\">interface MetaProperty <: Expression {\n    type: \"MetaProperty\";\n    meta: Identifier;\n    property: Identifier;\n}\n</code></pre>",
-            "<p>`MetaProperty` node represents `new.target` meta property in ES2015. In the future, it will represent other meta properties as well.</p>"
+            "<p><code>MetaProperty</code> node represents <code>new.target</code> meta property in ES2015. In the future, it will represent other meta properties as well.</p>"
         ]
     },
     "BinaryOperator": {
@@ -122,7 +122,7 @@
     "Statements": {
         "/es2018.md": [
             "<pre><code class=\"language-js\">extend interface ForOfStatement {\n  await: boolean;\n}\n</code></pre>",
-            "<p>`for-await-of` statements, e.g., `for await (const x of xs) {`</p>"
+            "<p><code>for-await-of</code> statements, e.g., <code>for await (const x of xs) {</code></p>"
         ],
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Statement <: Node { }\n</code></pre>",
@@ -132,23 +132,23 @@
     "Template Literals": {
         "/es2018.md": [
             "<pre><code class=\"language-js\">extend interface TemplateElement {\n    value: {\n        cooked: string | null;\n        raw: string;\n    };\n}\n</code></pre>",
-            "<p>If the template literal is tagged and the text has an invalid escape, `cooked` will be `null`, e.g., ``tag`\\unicode and \\u{55}` ``</p>"
+            "<p>If the template literal is tagged and the text has an invalid escape, <code>cooked</code> will be <code>null</code>, e.g., <code>tag`\\unicode and \\u{55}` </code></p>"
         ]
     },
     "Patterns": {
         "/es2018.md": [
             "<pre><code class=\"language-js\">extend interface ObjectPattern {\n    properties: [ AssignmentProperty | RestElement ];\n}\n</code></pre>",
-            "<p>Rest properties, e.g., `{a, ...rest} = obj`.</p>"
+            "<p>Rest properties, e.g., <code>{a, ...rest} = obj</code>.</p>"
         ],
         "/es5.md": [
-            "<p>Destructuring binding and assignment are not part of ES5, but all binding positions accept `Pattern` to allow for destructuring in ES6. Nevertheless, for ES5, the only `Pattern` subtype is [`Identifier`](#identifier).</p>",
+            "<p>Destructuring binding and assignment are not part of ES5, but all binding positions accept <code>Pattern</code> to allow for destructuring in ES6. Nevertheless, for ES5, the only <code>Pattern</code> subtype is <a href=#identifier><code>Identifier</code></a>.</p>",
             "<pre><code class=\"language-js\">interface Pattern <: Node { }\n</code></pre>"
         ]
     },
     "Literal": {
         "/es2020.md": [
             "<pre><code class=\"language-js\">extend interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp | bigint;\n}\n</code></pre>",
-            "<p>`value` property can be a `BigInt` value to represent `BigInt` literals\nsuch as `100n`.</p>"
+            "<p><code>value</code> property can be a <code>BigInt</code> value to represent <code>BigInt</code> literals<br/>such as <code>100n</code>.</p>"
         ],
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp;\n}\n</code></pre>",
@@ -158,44 +158,44 @@
     "Literal/BigIntLiteral": {
         "/es2020.md": [
             "<pre><code class=\"language-js\">interface BigIntLiteral <: Literal {\n  bigint: string;\n}\n</code></pre>",
-            "<p>`bigint` property is the string representation of the `BigInt` value.\nIt doesn't include the suffix `n`.</p>",
-            "<p>In environments that don't support `BigInt` values, `value` property will be\n`null` as the `BigInt` value can't be represented natively.</p>"
+            "<p><code>bigint</code> property is the string representation of the <code>BigInt</code> value.<br/>It doesn't include the suffix <code>n</code>.</p>",
+            "<p>In environments that don't support <code>BigInt</code> values, <code>value</code> property will be<br/><code>null</code> as the <code>BigInt</code> value can't be represented natively.</p>"
         ]
     },
     "Classes/PropertyDefinition": {
         "/es2022.md": [
             "<pre><code class=\"language-js\">interface PropertyDefinition <: Node {\n    type: \"PropertyDefinition\";\n    key: Expression | PrivateIdentifier;\n    value: Expression | null;\n    computed: boolean;\n    static: boolean;\n}\n</code></pre>",
-            "<p>When `key` is a `PrivateIdentifier`, `computed` must be `false`.</p>"
+            "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>"
         ]
     },
     "Classes/MethodDefinition/PrivateIdentifier": {
         "/es2022.md": [
             "<pre><code class=\"language-js\">interface PrivateIdentifier <: Node {\n    type: \"PrivateIdentifier\";\n    name: string;\n}\n</code></pre>",
-            "<p>A private identifier refers to private class elements. For a private name `#a`, its `name` is `a`.</p>",
+            "<p>A private identifier refers to private class elements. For a private name <code>#a</code>, its <code>name</code> is <code>a</code>.</p>",
             "<pre><code class=\"language-js\">extend interface MemberExpression {\n    property: Expression | PrivateIdentifier;\n}\n</code></pre>",
-            "<p>When `property` is a `PrivateIdentifier`, `computed` must be `false`.</p>",
-            "<p>When `object` is a `Super`, `property` can not be a `PrivateIdentifier`.</p>"
+            "<p>When <code>property</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>",
+            "<p>When <code>object</code> is a <code>Super</code>, <code>property</code> can not be a <code>PrivateIdentifier</code>.</p>"
         ]
     },
     "Classes/StaticBlock": {
         "/es2022.md": [
             "<pre><code class=\"language-js\">interface StaticBlock <: BlockStatement {\n    type: \"StaticBlock\";\n}\n</code></pre>",
-            "<p>A static block `static { }` is a block statement serving as an additional static initializer.</p>"
+            "<p>A static block <code>static { }</code> is a block statement serving as an additional static initializer.</p>"
         ]
     },
     "Modules": {
         "/es2022.md": [
-            "<p>See [Arbitrary module namespace identifier names] for more details.</p>"
+            "<p>See <a href=https://github.com/tc39/ecma262/pull/2154>Arbitrary module namespace identifier names</a> for more details.</p>"
         ]
     },
     "Node objects": {
         "/es5.md": [
-            "<p>ESTree AST nodes are represented as `Node` objects, which may have any prototype inheritance but which implement the following interface:</p>",
+            "<p>ESTree AST nodes are represented as <code>Node</code> objects, which may have any prototype inheritance but which implement the following interface:</p>",
             "<pre><code class=\"language-js\">interface Node {\n    type: string;\n    loc: SourceLocation | null;\n}\n</code></pre>",
-            "<p>The `type` field is a string representing the AST variant type. Each subtype of `Node` is documented below with the specific string of its `type` field. You can use this field to determine which interface a node implements.</p>",
-            "<p>The `loc` field represents the source location information of the node. If the node contains no information about the source location, the field is `null`; otherwise it is an object consisting of a start position (the position of the first character of the parsed source region) and an end position (the position of the first character after the parsed source region):</p>",
+            "<p>The <code>type</code> field is a string representing the AST variant type. Each subtype of <code>Node</code> is documented below with the specific string of its <code>type</code> field. You can use this field to determine which interface a node implements.</p>",
+            "<p>The <code>loc</code> field represents the source location information of the node. If the node contains no information about the source location, the field is <code>null</code>; otherwise it is an object consisting of a start position (the position of the first character of the parsed source region) and an end position (the position of the first character after the parsed source region):</p>",
             "<pre><code class=\"language-js\">interface SourceLocation {\n    source: string | null;\n    start: Position;\n    end: Position;\n}\n</code></pre>",
-            "<p>Each `Position` object consists of a `line` number (1-indexed) and a `column` number (0-indexed):</p>",
+            "<p>Each <code>Position</code> object consists of a <code>line</code> number (1-indexed) and a <code>column</code> number (0-indexed):</p>",
             "<pre><code class=\"language-js\">interface Position {\n    line: number; // >= 1\n    column: number; // >= 0\n}\n</code></pre>"
         ]
     },
@@ -206,13 +206,13 @@
         ],
         "/extensions/type-annotations.md": [
             "<pre><code class=\"language-js\">extend interface Identifier {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>",
-            "<p>The `typeAnnotation` property is used only in the case of variable declarations with type annotations or function arguments with type annotations.</p>"
+            "<p>The <code>typeAnnotation</code> property is used only in the case of variable declarations with type annotations or function arguments with type annotations.</p>"
         ]
     },
     "Literal/RegExpLiteral": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface RegExpLiteral <: Literal {\n  regex: {\n    pattern: string;\n    flags: string;\n  };\n}\n</code></pre>",
-            "<p>The `regex` property allows regexes to be represented in environments that don’t\nsupport certain flags such as `y` or `u`. In environments that don't support\nthese flags `value` will be `null` as the regex can't be represented natively.</p>"
+            "<p>The <code>regex</code> property allows regexes to be represented in environments that don’t<br/>support certain flags such as <code>y</code> or <code>u</code>. In environments that don't support<br/>these flags <code>value</code> will be <code>null</code> as the regex can't be represented natively.</p>"
         ]
     },
     "Statements/ExpressionStatement": {
@@ -224,7 +224,7 @@
     "Statements/Directive": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Directive <: ExpressionStatement {\n    expression: Literal;\n    directive: string;\n}\n</code></pre>",
-            "<p>A directive from the directive prologue of a script or function.\nThe `directive` property is the raw string source of the directive without quotes.</p>"
+            "<p>A directive from the directive prologue of a script or function.<br/>The <code>directive</code> property is the raw string source of the directive without quotes.</p>"
         ]
     },
     "Statements/BlockStatement": {
@@ -248,13 +248,13 @@
     "Statements/DebuggerStatement": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface DebuggerStatement <: Statement {\n    type: \"DebuggerStatement\";\n}\n</code></pre>",
-            "<p>A `debugger` statement.</p>"
+            "<p>A <code>debugger</code> statement.</p>"
         ]
     },
     "Statements/WithStatement": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface WithStatement <: Statement {\n    type: \"WithStatement\";\n    object: Expression;\n    body: Statement;\n}\n</code></pre>",
-            "<p>A `with` statement.</p>"
+            "<p>A <code>with</code> statement.</p>"
         ]
     },
     "Declarations": {
@@ -266,7 +266,7 @@
     "Declarations/FunctionDeclaration": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface FunctionDeclaration <: Function, Declaration {\n    type: \"FunctionDeclaration\";\n    id: Identifier;\n}\n</code></pre>",
-            "<p>A function declaration. Note that unlike in the parent interface `Function`, the `id` cannot be `null`.</p>"
+            "<p>A function declaration. Note that unlike in the parent interface <code>Function</code>, the <code>id</code> cannot be <code>null</code>.</p>"
         ]
     },
     "Declarations/VariableDeclaration": {
@@ -284,13 +284,13 @@
     "Expressions/ThisExpression": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface ThisExpression <: Expression {\n    type: \"ThisExpression\";\n}\n</code></pre>",
-            "<p>A `this` expression.</p>"
+            "<p>A <code>this</code> expression.</p>"
         ]
     },
     "Expressions/ArrayExpression": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface ArrayExpression <: Expression {\n    type: \"ArrayExpression\";\n    elements: [ Expression | null ];\n}\n</code></pre>",
-            "<p>An array expression. An element might be `null` if it represents a hole in a sparse array. E.g. `[1,,2]`.</p>"
+            "<p>An array expression. An element might be <code>null</code> if it represents a hole in a sparse array. E.g. <code>[1,,2]</code>.</p>"
         ]
     },
     "Expressions/ObjectExpression": {
@@ -302,19 +302,19 @@
     "Expressions/ObjectExpression/Property": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Property <: Node {\n    type: \"Property\";\n    key: Literal | Identifier;\n    value: Expression;\n    kind: \"init\" | \"get\" | \"set\";\n}\n</code></pre>",
-            "<p>A literal property in an object expression can have either a string or number as its `value`. Ordinary property initializers have a `kind` value `\"init\"`; getters and setters have the kind values `\"get\"` and `\"set\"`, respectively.</p>"
+            "<p>A literal property in an object expression can have either a string or number as its <code>value</code>. Ordinary property initializers have a <code>kind</code> value <code>\"init\"</code>; getters and setters have the kind values <code>\"get\"</code> and <code>\"set\"</code>, respectively.</p>"
         ]
     },
     "Expressions/FunctionExpression": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface FunctionExpression <: Function, Expression {\n    type: \"FunctionExpression\";\n}\n</code></pre>",
-            "<p>A `function` expression.</p>"
+            "<p>A <code>function</code> expression.</p>"
         ]
     },
     "Expressions/ConditionalExpression": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface ConditionalExpression <: Expression {\n    type: \"ConditionalExpression\";\n    test: Expression;\n    alternate: Expression;\n    consequent: Expression;\n}\n</code></pre>",
-            "<p>A conditional expression, i.e., a ternary `?`/`:` expression.</p>"
+            "<p>A conditional expression, i.e., a ternary <code>?</code>/<code>:</code> expression.</p>"
         ]
     },
     "Expressions/CallExpression": {
@@ -326,7 +326,7 @@
     "Expressions/NewExpression": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface NewExpression <: Expression {\n    type: \"NewExpression\";\n    callee: Expression;\n    arguments: [ Expression ];\n}\n</code></pre>",
-            "<p>A `new` expression.</p>"
+            "<p>A <code>new</code> expression.</p>"
         ]
     },
     "Expressions/SequenceExpression": {

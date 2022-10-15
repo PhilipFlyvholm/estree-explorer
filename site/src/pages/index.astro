@@ -1,21 +1,15 @@
 ---
-import SubSection from "../components/SubSection.astro";
 import Layout from "../layouts/Layout.astro";
 import estree from "./estree.json";
+import SvelteContainer from '../components/SvelteContainer.svelte';
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
 		<h1>Welcome to <span class="text-gradient">Estree explorer</span></h1>
-		
+
 		<ul role="list" class="link-card-flex">
-			{	
-				Object.keys(estree).map((key) => {
-					const i = (estree as any)[key];
-					return (<SubSection title={key} content={i}/>);
-					}
-				)
-			}
+			<SvelteContainer client:load estree={estree}></SvelteContainer>
 		</ul>
 	</main>
 </Layout>
@@ -42,7 +36,7 @@ import estree from "./estree.json";
 		font-weight: 800;
 		margin: 0;
 	}
-	.text-gradient {
+	a, .text-gradient {
 		background-image: var(--accent-gradient);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;

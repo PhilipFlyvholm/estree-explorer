@@ -4,6 +4,7 @@ export interface Props {
 }
 
 const { title } = Astro.props;
+
 ---
 
 <!DOCTYPE html>
@@ -26,12 +27,12 @@ const { title } = Astro.props;
 	:root {
 		--accent: #f8bf2e;
 		--accent-gradient: linear-gradient(45deg, var(--accent), #dc9519 30%, white 60%);
-		background: #202124;
-		color: white;
+		
 	}
 	html {
 		font-family: 'Poppins', system-ui, sans-serif;
-		background-color: #F6F6F6;
+		background: #202124;
+		color: white;
 	}
 	code {
 		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
