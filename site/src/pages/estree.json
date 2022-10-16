@@ -22,6 +22,20 @@
             "<p>The <code>returnType</code> property is used to specify the type annotation for the return value of the function.</p>"
         ]
     },
+    "Statements/ForOfStatement": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ForOfStatement <: ForInStatement {\n    type: \"ForOfStatement\";\n}\n</code></pre>"
+        ]
+    },
+    "Declarations/VariableDeclaration": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">extend interface VariableDeclaration {\n    kind: \"var\" | \"let\" | \"const\";\n}\n</code></pre>"
+        ],
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface VariableDeclaration <: Declaration {\n    type: \"VariableDeclaration\";\n    declarations: [ VariableDeclarator ];\n    kind: \"var\";\n}\n</code></pre>",
+            "<p>A variable declaration.</p>"
+        ]
+    },
     "Expressions": {
         "/es2015.md": [
             "<pre><code class=\"language-js\">interface Super <: Node {\n    type: \"Super\";\n}\n\nextend interface CallExpression {\n    callee: Expression | Super;\n    arguments: [ Expression | SpreadElement ];\n}\n\nextend interface MemberExpression {\n    object: Expression | Super;\n}\n</code></pre>",
@@ -52,6 +66,50 @@
         "/es2015.md": [
             "<pre><code class=\"language-js\">interface YieldExpression <: Expression {\n    type: \"YieldExpression\";\n    argument: Expression | null;\n    delegate: boolean;\n}\n</code></pre>",
             "<p>A <code>yield</code> expression.</p>"
+        ]
+    },
+    "Template Literals/TemplateLiteral": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface TemplateLiteral <: Expression {\n    type: \"TemplateLiteral\";\n    quasis: [ TemplateElement ];\n    expressions: [ Expression ];\n}\n</code></pre>"
+        ]
+    },
+    "Template Literals/TaggedTemplateExpression": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface TaggedTemplateExpression <: Expression {\n    type: \"TaggedTemplateExpression\";\n    tag: Expression;\n    quasi: TemplateLiteral;\n}\n</code></pre>"
+        ]
+    },
+    "Template Literals/TemplateElement": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface TemplateElement <: Node {\n    type: \"TemplateElement\";\n    tail: boolean;\n    value: {\n        cooked: string;\n        raw: string;\n    };\n}\n</code></pre>"
+        ]
+    },
+    "Patterns/ObjectPattern": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface AssignmentProperty <: Property {\n    type: \"Property\"; // inherited\n    value: Pattern;\n    kind: \"init\";\n    method: false;\n}\n\ninterface ObjectPattern <: Pattern {\n    type: \"ObjectPattern\";\n    properties: [ AssignmentProperty ];\n}\n</code></pre>"
+        ],
+        "/extensions/type-annotations.md": [
+            "<pre><code class=\"language-js\">extend interface ObjectPattern {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
+        ]
+    },
+    "Patterns/ArrayPattern": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ArrayPattern <: Pattern {\n    type: \"ArrayPattern\";\n    elements: [ Pattern | null ];\n}\n</code></pre>"
+        ],
+        "/extensions/type-annotations.md": [
+            "<pre><code class=\"language-js\">extend interface ArrayPattern {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
+        ]
+    },
+    "Patterns/RestElement": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface RestElement <: Pattern {\n    type: \"RestElement\";\n    argument: Pattern;\n}\n</code></pre>"
+        ],
+        "/extensions/type-annotations.md": [
+            "<pre><code class=\"language-js\">extend interface RestElement {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
+        ]
+    },
+    "Patterns/AssignmentPattern": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface AssignmentPattern <: Pattern {\n    type: \"AssignmentPattern\";\n    left: Pattern;\n    right: Expression;\n}\n</code></pre>"
         ]
     },
     "Classes": {
@@ -97,6 +155,80 @@
         "/es2015.md": [
             "<pre><code class=\"language-js\">interface MetaProperty <: Expression {\n    type: \"MetaProperty\";\n    meta: Identifier;\n    property: Identifier;\n}\n</code></pre>",
             "<p><code>MetaProperty</code> node represents <code>new.target</code> meta property in ES2015. In the future, it will represent other meta properties as well.</p>"
+        ]
+    },
+    "Modules/ModuleDeclaration": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ModuleDeclaration <: Node { }\n</code></pre>",
+            "<p>A module <code>import</code> or <code>export</code> declaration.</p>"
+        ]
+    },
+    "Modules/ModuleSpecifier": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ModuleSpecifier <: Node {\n    local: Identifier;\n}\n</code></pre>",
+            "<p>A specifier in an import or export declaration.</p>"
+        ]
+    },
+    "Modules/Imports/ImportDeclaration": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ImportDeclaration <: ModuleDeclaration {\n    type: \"ImportDeclaration\";\n    specifiers: [ ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier ];\n    source: Literal;\n}\n</code></pre>",
+            "<p>An import declaration, e.g., <code>import foo from \"mod\";</code>.</p>"
+        ]
+    },
+    "Modules/Imports/ImportSpecifier": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ImportSpecifier <: ModuleSpecifier {\n    type: \"ImportSpecifier\";\n    imported: Identifier;\n}\n</code></pre>",
+            "<p>An imported variable binding, e.g., <code>{foo}</code> in <code>import {foo} from \"mod\"</code> or <code>{foo as bar}</code> in <code>import {foo as bar} from \"mod\"</code>. The <code>imported</code> field refers to the name of the export imported from the module. The <code>local</code> field refers to the binding imported into the local module scope. If it is a basic named import, such as in <code>import {foo} from \"mod\"</code>, both <code>imported</code> and <code>local</code> are equivalent <code>Identifier</code> nodes; in this case an <code>Identifier</code> node representing <code>foo</code>. If it is an aliased import, such as in <code>import {foo as bar} from \"mod\"</code>, the <code>imported</code> field is an <code>Identifier</code> node representing <code>foo</code>, and the <code>local</code> field is an <code>Identifier</code> node representing <code>bar</code>.</p>"
+        ],
+        "/es2022.md": [
+            "<pre><code class=\"language-js\">extend interface ImportSpecifier <: ModuleSpecifier {\n    imported: Identifier | Literal;\n}\n</code></pre>",
+            "<p>If <code>imported</code> is a <code>Literal</code>, <code>imported.value</code> must be a string without lone surrogate.</p>"
+        ]
+    },
+    "Modules/Imports/ImportDefaultSpecifier": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ImportDefaultSpecifier <: ModuleSpecifier {\n    type: \"ImportDefaultSpecifier\";\n}\n</code></pre>",
+            "<p>A default import specifier, e.g., <code>foo</code> in <code>import foo from \"mod.js\"</code>.</p>"
+        ]
+    },
+    "Modules/Imports/ImportNamespaceSpecifier": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ImportNamespaceSpecifier <: ModuleSpecifier {\n    type: \"ImportNamespaceSpecifier\";\n}\n</code></pre>",
+            "<p>A namespace import specifier, e.g., <code>* as foo</code> in <code>import * as foo from \"mod.js\"</code>.</p>"
+        ]
+    },
+    "Modules/Exports/ExportNamedDeclaration": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ExportNamedDeclaration <: ModuleDeclaration {\n    type: \"ExportNamedDeclaration\";\n    declaration: Declaration | null;\n    specifiers: [ ExportSpecifier ];\n    source: Literal | null;\n}\n</code></pre>",
+            "<p>An export named declaration, e.g., <code>export {foo, bar};</code>, <code>export {foo} from \"mod\";</code> or <code>export var foo = 1;</code>.</p>",
+            "<p><em>Note: Having <code>declaration</code> populated with non-empty <code>specifiers</code> or non-null <code>source</code> results in an invalid state.</em></p>"
+        ]
+    },
+    "Modules/Exports/ExportSpecifier": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ExportSpecifier <: ModuleSpecifier {\n    type: \"ExportSpecifier\";\n    exported: Identifier;\n}\n</code></pre>",
+            "<p>An exported variable binding, e.g., <code>{foo}</code> in <code>export {foo}</code> or <code>{bar as foo}</code> in <code>export {bar as foo}</code>. The <code>exported</code> field refers to the name exported in the module. The <code>local</code> field refers to the binding into the local module scope. If it is a basic named export, such as in <code>export {foo}</code>, both <code>exported</code> and <code>local</code> are equivalent <code>Identifier</code> nodes; in this case an <code>Identifier</code> node representing <code>foo</code>. If it is an aliased export, such as in <code>export {bar as foo}</code>, the <code>exported</code> field is an <code>Identifier</code> node representing <code>foo</code>, and the <code>local</code> field is an <code>Identifier</code> node representing <code>bar</code>.</p>"
+        ],
+        "/es2022.md": [
+            "<pre><code class=\"language-js\">extend interface ExportSpecifier <: ModuleSpecifier {\n    local: Identifier | Literal;\n    exported: Identifier | Literal;\n}\n</code></pre>",
+            "<p><code>local</code> can be <code>Literal</code> only if the <code>source</code> of the <code>ExportNamedDeclaration</code> of the parent of this node is not <code>null</code>. e.g. <code>export { \"foo\" as \"foo\" } from \"mod\"</code> is valid, <code>export { \"foo\" as \"foo\" }</code> is invalid.</p>",
+            "<p>If <code>exported</code>/<code>local</code> is <code>Literal</code>, <code>exported.value</code>/<code>local.value</code> must be a string without lone surrogate.</p>"
+        ]
+    },
+    "Modules/Exports/ExportDefaultDeclaration": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface AnonymousDefaultExportedFunctionDeclaration <: Function {\n    type: \"FunctionDeclaration\";\n    id: null;\n}\n\ninterface AnonymousDefaultExportedClassDeclaration <: Class {\n    type: \"ClassDeclaration\";\n    id: null;\n}\n\ninterface ExportDefaultDeclaration <: ModuleDeclaration {\n    type: \"ExportDefaultDeclaration\";\n    declaration: AnonymousDefaultExportedFunctionDeclaration | FunctionDeclaration | AnonymousDefaultExportedClassDeclaration | ClassDeclaration | Expression;\n}\n</code></pre>",
+            "<p>An export default declaration, e.g., <code>export default function () {};</code> or <code>export default 1;</code>.</p>"
+        ]
+    },
+    "Modules/Exports/ExportAllDeclaration": {
+        "/es2015.md": [
+            "<pre><code class=\"language-js\">interface ExportAllDeclaration <: ModuleDeclaration {\n    type: \"ExportAllDeclaration\";\n    source: Literal;\n}\n</code></pre>",
+            "<p>An export batch declaration, e.g., <code>export * from \"mod\";</code>.</p>"
+        ],
+        "/es2022.md": [
+            "<pre><code class=\"language-js\">extend interface ExportAllDeclaration {\n    exported: Identifier | Literal | null;\n}\n</code></pre>",
+            "<p>If <code>exported</code> is <code>Literal</code>, <code>exported.value</code> must be a string without lone surrogate.</p>"
         ]
     },
     "BinaryOperator": {
@@ -145,6 +277,12 @@
             "<pre><code class=\"language-js\">interface Pattern <: Node { }\n</code></pre>"
         ]
     },
+    "Statements/CatchClause": {
+        "/es2019.md": [
+            "<pre><code class=\"language-js\">extend interface CatchClause {\n    param: Pattern | null;\n}\n</code></pre>",
+            "<p>The <code>param</code> is <code>null</code> if the <code>catch</code> binding is omitted. E.g., <code>try { foo() } catch { bar() }</code></p>"
+        ]
+    },
     "Literal": {
         "/es2020.md": [
             "<pre><code class=\"language-js\">extend interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp | bigint;\n}\n</code></pre>",
@@ -160,6 +298,57 @@
             "<pre><code class=\"language-js\">interface BigIntLiteral <: Literal {\n  bigint: string;\n}\n</code></pre>",
             "<p><code>bigint</code> property is the string representation of the <code>BigInt</code> value.<br/>It doesn't include the suffix <code>n</code>.</p>",
             "<p>In environments that don't support <code>BigInt</code> values, <code>value</code> property will be<br/><code>null</code> as the <code>BigInt</code> value can't be represented natively.</p>"
+        ]
+    },
+    "Expressions/ChainExpression": {
+        "/es2020.md": [
+            "<pre><code class=\"language-js\">interface ChainExpression <: Expression {\n  type: \"ChainExpression\";\n  expression: ChainElement;\n}\n\ninterface ChainElement <: Node {\n  optional: boolean;\n}\n\nextend interface CallExpression <: ChainElement {}\n\nextend interface MemberExpression <: ChainElement {}\n</code></pre>",
+            "<p>The <code>ChainExpression</code> node is the root of optional chaining.</p>",
+            "<p>The <code>ChainExpression</code> node contains one or more <code>ChainElement</code> nodes that are <code>optional:true</code>. On the other hand, <code>ChainElement</code> nodes that are <code>optional:true</code> belong to a <code>ChainExpression</code> node.</p>",
+            "<p>For backward compatibility, if all <code>ChainElement</code> nodes of a chain are <code>optional:false</code>, the <code>ChainExpression</code> node isn't inserted as the root of the chain.</p>",
+            "<p>Evaluation:</p>",
+            "<p>The <code>ChainExpression</code> node is evaluated to the result of the <code>expression</code> property's node.</p>",
+            "<p>If the <code>callee|object</code> property is evaluated to nullish and the <code>optional</code> property is <code>true</code>, then the node and ancestor nodes are skipped until the closest <code>ChainExpression</code> node, and the result of the <code>ChainExpression</code> node becomes <code>undefined</code>.</p>",
+            "<p><details><summary>For Examples:</summary></p>",
+            "<pre><code class=\"language-jsonc\">// obj.aaa.bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
+            "<pre><code class=\"language-jsonc\">// obj.aaa?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+            "<pre><code class=\"language-jsonc\">// obj?.aaa.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+            "<pre><code class=\"language-jsonc\">// obj?.aaa?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+            "<pre><code class=\"language-jsonc\">// (obj.aaa).bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
+            "<pre><code class=\"language-jsonc\">// (obj.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+            "<pre><code class=\"language-jsonc\">// (obj?.aaa).bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"ChainExpression\",\n    \"expression\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
+            "<pre><code class=\"language-jsonc\">// (obj?.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"ChainExpression\",\n      \"expression\": {\n        \"type\": \"MemberExpression\",\n        \"optional\": true,\n        \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n        \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n      }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+            "<p></details></p>"
+        ]
+    },
+    "Expressions/ImportExpression": {
+        "/es2020.md": [
+            "<pre><code class=\"language-js\">interface ImportExpression <: Expression {\n  type: \"ImportExpression\";\n  source: Expression;\n}\n</code></pre>",
+            "<p><code>ImportExpression</code> node represents Dynamic Imports such as <code>import(source)</code>.<br/>The <code>source</code> property is the importing source as similar to <a href=es2015.md#importdeclaration>ImportDeclaration</a><br/>node, but it can be an arbitrary expression node.</p>"
+        ]
+    },
+    "Expressions/LogicalExpression": {
+        "/es2020.md": [
+            "<pre><code class=\"language-js\">extend enum LogicalOperator {\n    \"??\"\n}\n</code></pre>",
+            "<p>The <code>operator</code> property of the <code>LogicalExpression</code> node can be <code>\"??\"</code> to represent <a href=https://github.com/tc39/proposal-nullish-coalescing>Nullish Coalescing</a> syntax.</p>"
+        ]
+    },
+    "Expressions/MetaProperty": {
+        "/es2020.md": [
+            "<p>Existing <a href=es2015.md#metaproperty>MetaProperty</a> node represents <code>import.meta</code> meta property as well.</p>"
+        ]
+    },
+    "Modules/ExportAllDeclaration": {
+        "/es2020.md": [
+            "<pre><code class=\"language-js\">extend interface ExportAllDeclaration {\n  exported: Identifier | null;\n}\n</code></pre>",
+            "<p>The <code>exported</code> property contains an <code>Identifier</code> when a different exported name is specified using <code>as</code>, e.g., <code>export * as foo from \"mod\";</code>.</p>"
+        ]
+    },
+    "Expressions/AssignmentOperator": {
+        "/es2021.md": [
+            "<pre><code class=\"language-js\">extend enum AssignmentOperator {\n    \"||=\" | \"&&=\" | \"??=\"\n}\n</code></pre>",
+            "<p><a href=../es5.md#AssignmentExpression>AssignmentExpression</a> node has short-circuiting behavior if the <code>operator</code><br/>property is any of <code>\"||=\"</code>,<code>\"&&=\"</code>, and <code>\"??=\"</code>.</p>",
+            "<p>See <a href=https://github.com/tc39/proposal-logical-assignment>Logical Assignment Operators</a> for details.</p>"
         ]
     },
     "Classes/PropertyDefinition": {
@@ -181,6 +370,13 @@
         "/es2022.md": [
             "<pre><code class=\"language-js\">interface StaticBlock <: BlockStatement {\n    type: \"StaticBlock\";\n}\n</code></pre>",
             "<p>A static block <code>static { }</code> is a block statement serving as an additional static initializer.</p>"
+        ]
+    },
+    "Classes/Expressions/BinaryExpression": {
+        "/es2022.md": [
+            "<pre><code class=\"language-js\">extend interface BinaryExpression <: Expression {\n    left: Expression | PrivateIdentifier;\n}\n</code></pre>",
+            "<p><code>left</code> can be a private identifier (e.g. <code>#foo</code>) when <code>operator</code> is <code>\"in\"</code>.</p>",
+            "<p>See <a href=https://github.com/tc39/proposal-private-fields-in-in>Ergonomic brand checks for Private Fields</a> for details.</p>"
         ]
     },
     "Modules": {
@@ -257,6 +453,90 @@
             "<p>A <code>with</code> statement.</p>"
         ]
     },
+    "Statements/Control flow/ReturnStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface ReturnStatement <: Statement {\n    type: \"ReturnStatement\";\n    argument: Expression | null;\n}\n</code></pre>",
+            "<p>A <code>return</code> statement.</p>"
+        ]
+    },
+    "Statements/Control flow/LabeledStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface LabeledStatement <: Statement {\n    type: \"LabeledStatement\";\n    label: Identifier;\n    body: Statement;\n}\n</code></pre>",
+            "<p>A labeled statement, i.e., a statement prefixed by a <code>break</code>/<code>continue</code> label.</p>"
+        ]
+    },
+    "Statements/Control flow/BreakStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface BreakStatement <: Statement {\n    type: \"BreakStatement\";\n    label: Identifier | null;\n}\n</code></pre>",
+            "<p>A <code>break</code> statement.</p>"
+        ]
+    },
+    "Statements/Control flow/ContinueStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface ContinueStatement <: Statement {\n    type: \"ContinueStatement\";\n    label: Identifier | null;\n}\n</code></pre>",
+            "<p>A <code>continue</code> statement.</p>"
+        ]
+    },
+    "Statements/Choice/IfStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface IfStatement <: Statement {\n    type: \"IfStatement\";\n    test: Expression;\n    consequent: Statement;\n    alternate: Statement | null;\n}\n</code></pre>",
+            "<p>An <code>if</code> statement.</p>"
+        ]
+    },
+    "Statements/Choice/SwitchStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface SwitchStatement <: Statement {\n    type: \"SwitchStatement\";\n    discriminant: Expression;\n    cases: [ SwitchCase ];\n}\n</code></pre>",
+            "<p>A <code>switch</code> statement.</p>"
+        ]
+    },
+    "Statements/Choice/SwitchStatement/SwitchCase": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface SwitchCase <: Node {\n    type: \"SwitchCase\";\n    test: Expression | null;\n    consequent: [ Statement ];\n}\n</code></pre>",
+            "<p>A <code>case</code> (if <code>test</code> is an <code>Expression</code>) or <code>default</code> (if <code>test === null</code>) clause in the body of a <code>switch</code> statement.</p>"
+        ]
+    },
+    "Statements/Exceptions/ThrowStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface ThrowStatement <: Statement {\n    type: \"ThrowStatement\";\n    argument: Expression;\n}\n</code></pre>",
+            "<p>A <code>throw</code> statement.</p>"
+        ]
+    },
+    "Statements/Exceptions/TryStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface TryStatement <: Statement {\n    type: \"TryStatement\";\n    block: BlockStatement;\n    handler: CatchClause | null;\n    finalizer: BlockStatement | null;\n}\n</code></pre>",
+            "<p>A <code>try</code> statement. If <code>handler</code> is <code>null</code> then <code>finalizer</code> must be a <code>BlockStatement</code>.</p>"
+        ]
+    },
+    "Statements/Exceptions/TryStatement/CatchClause": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface CatchClause <: Node {\n    type: \"CatchClause\";\n    param: Pattern;\n    body: BlockStatement;\n}\n</code></pre>",
+            "<p>A <code>catch</code> clause following a <code>try</code> block.</p>"
+        ]
+    },
+    "Statements/Loops/WhileStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface WhileStatement <: Statement {\n    type: \"WhileStatement\";\n    test: Expression;\n    body: Statement;\n}\n</code></pre>",
+            "<p>A <code>while</code> statement.</p>"
+        ]
+    },
+    "Statements/Loops/DoWhileStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface DoWhileStatement <: Statement {\n    type: \"DoWhileStatement\";\n    body: Statement;\n    test: Expression;\n}\n</code></pre>",
+            "<p>A <code>do</code>/<code>while</code> statement.</p>"
+        ]
+    },
+    "Statements/Loops/ForStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface ForStatement <: Statement {\n    type: \"ForStatement\";\n    init: VariableDeclaration | Expression | null;\n    test: Expression | null;\n    update: Expression | null;\n    body: Statement;\n}\n</code></pre>",
+            "<p>A <code>for</code> statement.</p>"
+        ]
+    },
+    "Statements/Loops/ForInStatement": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface ForInStatement <: Statement {\n    type: \"ForInStatement\";\n    left: VariableDeclaration |  Pattern;\n    right: Expression;\n    body: Statement;\n}\n</code></pre>",
+            "<p>A <code>for</code>/<code>in</code> statement.</p>"
+        ]
+    },
     "Declarations": {
         "/es5.md": [
             "<pre><code class=\"language-js\">interface Declaration <: Statement { }\n</code></pre>",
@@ -267,12 +547,6 @@
         "/es5.md": [
             "<pre><code class=\"language-js\">interface FunctionDeclaration <: Function, Declaration {\n    type: \"FunctionDeclaration\";\n    id: Identifier;\n}\n</code></pre>",
             "<p>A function declaration. Note that unlike in the parent interface <code>Function</code>, the <code>id</code> cannot be <code>null</code>.</p>"
-        ]
-    },
-    "Declarations/VariableDeclaration": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface VariableDeclaration <: Declaration {\n    type: \"VariableDeclaration\";\n    declarations: [ VariableDeclarator ];\n    kind: \"var\";\n}\n</code></pre>",
-            "<p>A variable declaration.</p>"
         ]
     },
     "Declarations/VariableDeclaration/VariableDeclarator": {
@@ -309,6 +583,72 @@
         "/es5.md": [
             "<pre><code class=\"language-js\">interface FunctionExpression <: Function, Expression {\n    type: \"FunctionExpression\";\n}\n</code></pre>",
             "<p>A <code>function</code> expression.</p>"
+        ]
+    },
+    "Expressions/Unary operations/UnaryExpression": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface UnaryExpression <: Expression {\n    type: \"UnaryExpression\";\n    operator: UnaryOperator;\n    prefix: boolean;\n    argument: Expression;\n}\n</code></pre>",
+            "<p>A unary operator expression.</p>"
+        ]
+    },
+    "Expressions/Unary operations/UnaryExpression/UnaryOperator": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">enum UnaryOperator {\n    \"-\" | \"+\" | \"!\" | \"~\" | \"typeof\" | \"void\" | \"delete\"\n}\n</code></pre>",
+            "<p>A unary operator token.</p>"
+        ]
+    },
+    "Expressions/Unary operations/UpdateExpression": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface UpdateExpression <: Expression {\n    type: \"UpdateExpression\";\n    operator: UpdateOperator;\n    argument: Expression;\n    prefix: boolean;\n}\n</code></pre>",
+            "<p>An update (increment or decrement) operator expression.</p>"
+        ]
+    },
+    "Expressions/Unary operations/UpdateExpression/UpdateOperator": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">enum UpdateOperator {\n    \"++\" | \"--\"\n}\n</code></pre>",
+            "<p>An update (increment or decrement) operator token.</p>"
+        ]
+    },
+    "Expressions/Binary operations/BinaryExpression": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface BinaryExpression <: Expression {\n    type: \"BinaryExpression\";\n    operator: BinaryOperator;\n    left: Expression;\n    right: Expression;\n}\n</code></pre>",
+            "<p>A binary operator expression.</p>"
+        ]
+    },
+    "Expressions/Binary operations/BinaryExpression/BinaryOperator": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">enum BinaryOperator {\n    \"==\" | \"!=\" | \"===\" | \"!==\"\n         | \"<\" | \"<=\" | \">\" | \">=\"\n         | \"<<\" | \">>\" | \">>>\"\n         | \"+\" | \"-\" | \"*\" | \"/\" | \"%\"\n         | \"|\" | \"^\" | \"&\" | \"in\"\n         | \"instanceof\"\n}\n</code></pre>",
+            "<p>A binary operator token.</p>"
+        ]
+    },
+    "Expressions/Binary operations/AssignmentExpression": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface AssignmentExpression <: Expression {\n    type: \"AssignmentExpression\";\n    operator: AssignmentOperator;\n    left: Pattern | Expression;\n    right: Expression;\n}\n</code></pre>",
+            "<p>An assignment operator expression.</p>"
+        ]
+    },
+    "Expressions/Binary operations/AssignmentExpression/AssignmentOperator": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">enum AssignmentOperator {\n    \"=\" | \"+=\" | \"-=\" | \"*=\" | \"/=\" | \"%=\"\n        | \"<<=\" | \">>=\" | \">>>=\"\n        | \"|=\" | \"^=\" | \"&=\"\n}\n</code></pre>",
+            "<p>An assignment operator token.</p>"
+        ]
+    },
+    "Expressions/Binary operations/LogicalExpression": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface LogicalExpression <: Expression {\n    type: \"LogicalExpression\";\n    operator: LogicalOperator;\n    left: Expression;\n    right: Expression;\n}\n</code></pre>",
+            "<p>A logical operator expression.</p>"
+        ]
+    },
+    "Expressions/Binary operations/LogicalExpression/LogicalOperator": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">enum LogicalOperator {\n    \"||\" | \"&&\"\n}\n</code></pre>",
+            "<p>A logical operator token.</p>"
+        ]
+    },
+    "Expressions/Binary operations/MemberExpression": {
+        "/es5.md": [
+            "<pre><code class=\"language-js\">interface MemberExpression <: Expression, Pattern {\n    type: \"MemberExpression\";\n    object: Expression;\n    property: Expression;\n    computed: boolean;\n}\n</code></pre>",
+            "<p>A member expression. If <code>computed</code> is <code>true</code>, the node corresponds to a computed (<code>a[b]</code>) member expression and <code>property</code> is an <code>Expression</code>. If <code>computed</code> is <code>false</code>, the node corresponds to a static (<code>a.b</code>) member expression and <code>property</code> is an <code>Identifier</code>.</p>"
         ]
     },
     "Expressions/ConditionalExpression": {

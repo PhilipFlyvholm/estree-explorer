@@ -117,7 +117,7 @@ class Parser {
                     text += "</em>";
                     break;
                 }
-                case "softbreak":{
+                case "softbreak": {
                     text += "<br/>"
                     break;
                 }
@@ -207,10 +207,8 @@ class Parser {
                 }
                 case "heading_open": {
                     this.parseHeading(token);
-
                     break;
                 }
-
                 case "fence":
                     this.parseFence(token);
                     break;
@@ -230,11 +228,9 @@ class Parser {
     }
 }
 
-//parseMarkdown(readFileToString(findAllFilesInDir(fullPath)[0]), "D:/Code/estree-explorer/estree/es2019.md");
-//["D:\\Code\\estree-explorer\\estree\\es2019.md"]
 const filesFound = findAllFilesInDir(fullPath);
 let parsedFiles = []
-//parsedFiles = parseMarkdown(readFileToString("/Users/philipflyvholm/Documents/Code/estree-explorer/generator/estree/es2022.md"), "D:/Code/estree-explorer/estree/es2022.md");
+//parsedFiles = parseMarkdown(readFileToString("./estree/es2015.md"), "/estree/es2015.md");
 
 filesFound.forEach(file => {
     let relativePath = file.substring(fullPath.length).replace(/\\/g, "/");
@@ -245,10 +241,15 @@ filesFound.forEach(file => {
 function mergeKnownInfo(parsedFiles, parent = "", json = {}) {
     parsedFiles.forEach(md => {
         let name = parent === "" ? md.title : parent + "/" + md.title;
-        if(md.content.length == 0) return json;
+        if (md.content.length === 0) {
+            if (md.subSections.length === 0) {
+                return json;
+            }
+            return mergeKnownInfo(md.subSections, name, json);
+        }
         if (json[name] && json[name][md.file]) {
             json[name][md.file].concat(md.content);
-        } else if(json[name]){
+        } else if (json[name]) {
             json[name][md.file] = md.content;
         } else {
             json[name] = {};
