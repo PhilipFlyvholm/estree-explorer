@@ -1,15 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import estree from "./estree.json";
-import SvelteContainer from '../components/SvelteContainer.svelte';
+import SvelteContainer from "../components/SvelteContainer.svelte";
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="ESTree Explorer">
 	<main>
-		<h1>Welcome to <span class="text-gradient">Estree explorer</span></h1>
+		<div class="header">
+			<h1>
+				Welcome to <span class="text-gradient">ESTree explorer</span>
+			</h1>
+			<a href="https://github.com/philipflyvholm/estree-explorer"
+				><img src="./Github-Mark-Light-32px.png" alt="Github logo" />
+			</a>
+		</div>
 
 		<ul role="list" class="link-card-flex">
-			<SvelteContainer client:load estree={estree}></SvelteContainer>
+			<SvelteContainer client:load estree={estree} />
 		</ul>
 	</main>
 </Layout>
@@ -25,8 +32,14 @@ import SvelteContainer from '../components/SvelteContainer.svelte';
 		gap: 1rem;
 		padding: 0;
 	}
-	ul{
+	ul {
 		list-style: none;
+	}
+	.header{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+    	flex-wrap: wrap;
 	}
 </style>
 
@@ -36,7 +49,8 @@ import SvelteContainer from '../components/SvelteContainer.svelte';
 		font-weight: 800;
 		margin: 0;
 	}
-	a, .text-gradient {
+	a,
+	.text-gradient {
 		background-image: var(--accent-gradient);
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
