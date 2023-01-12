@@ -12,8 +12,12 @@
     let acceptableKeys = Object.keys(estree);
     async function search() {
         if(query.trim() === ''){
+            var currentURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.pushState({ path: currentURL }, '', currentURL);
+
             acceptableKeys = Object.keys(estree);
         }else{
+        window.history.pushState( {} , '', `?q=${query}` );
             acceptableKeys = [];
             Object.keys(estree).forEach(key => {
                 if(key.toLowerCase().includes(query.toLowerCase())){
@@ -25,6 +29,10 @@
         hljs.highlightAll();
     }
     onMount(() => {
+        query = new URL(window.location.href).searchParams.get('q') ?? '';
+        if(query !== ''){
+            search();
+        }
         hljs.highlightAll();
 
     })
