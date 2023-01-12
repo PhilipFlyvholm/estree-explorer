@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const md = require("markdown").markdown;
 const MarkdownIt = require('markdown-it');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 
 const fullPath = path.join(__dirname, 'estree');
@@ -228,16 +229,6 @@ class Parser {
     }
 }
 
-const filesFound = findAllFilesInDir(fullPath);
-let parsedFiles = []
-//parsedFiles = parseMarkdown(readFileToString("./estree/es2015.md"), "/estree/es2015.md");
-
-filesFound.forEach(file => {
-    let relativePath = file.substring(fullPath.length).replace(/\\/g, "/");
-    let markdownJson = parseMarkdown(readFileToString(file), relativePath);
-    parsedFiles = parsedFiles.concat(markdownJson);
-});
-
 function mergeKnownInfo(parsedFiles, parent = "", json = {}) {
     parsedFiles.forEach(md => {
         let name = parent === "" ? md.title : parent + "/" + md.title;
@@ -260,5 +251,45 @@ function mergeKnownInfo(parsedFiles, parent = "", json = {}) {
     return json;
 }
 
-let merged = mergeKnownInfo(parsedFiles);
-fs.writeFileSync("./output/output.json", JSON.stringify(merged));
+async function getMDNLinks(sections) {
+    // https://developer.mozilla.org/api/v1/search?q=Expressions/ConditionalExpression&locale=en-US
+    console.log("Fetching from MDN");
+    const total = Object.keys(sections).length;
+    let i = 1;
+    await Promise.all(Object.keys(sections).map(async (key) => {
+        const val = sections[key];
+        const areas = key.split("/");
+        let url = new URL("https://developer.mozilla.org/api/v1/search");
+        url.searchParams.set('q', areas[areas.length - 1]);
+    
+        const res = await fetch(url.toString());
+        if(!res.ok) return;
+        const result = await res.json();
+        const documents = result.documents;
+        const document = documents[0];
+        const mdn_url = "https://developer.mozilla.org" + document.mdn_url;
+        const score = document.score;
+        sections[key] = {content: val, mdn: {score: score, url: mdn_url}}
+        console.log(`Processed ${i++} calls out of ${total}`);
+    }));
+    return sections;
+}
+
+async function main(){
+    const filesFound = findAllFilesInDir(fullPath);
+    let parsedFiles = []
+    //parsedFiles = parseMarkdown(readFileToString("./estree/es2015.md"), "/estree/es2015.md");
+    
+    filesFound.forEach(file => {
+        let relativePath = file.substring(fullPath.length).replace(/\\/g, "/");
+        let markdownJson = parseMarkdown(readFileToString(file), relativePath);
+        parsedFiles = parsedFiles.concat(markdownJson);
+    });
+    
+    
+    let merged = mergeKnownInfo(parsedFiles);
+    let mappedToMDN = await getMDNLinks(merged);
+    fs.writeFileSync("./output/output.json", JSON.stringify(mappedToMDN));
+}
+
+main();

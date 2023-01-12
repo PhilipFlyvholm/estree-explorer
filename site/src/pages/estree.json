@@ -1,684 +1,1278 @@
 {
     "Programs": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">extend interface Program {\n    sourceType: \"script\" | \"module\";\n    body: [ Statement | ModuleDeclaration ];\n}\n</code></pre>",
-            "<p>Parsers must specify <code>sourceType</code> as <code>\"module\"</code> if the source has been parsed as an ES6 module. Otherwise, <code>sourceType</code> must be <code>\"script\"</code>.</p>"
-        ],
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Program <: Node {\n    type: \"Program\";\n    body: [ Directive | Statement ];\n}\n</code></pre>",
-            "<p>A complete program source tree.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">extend interface Program {\n    sourceType: \"script\" | \"module\";\n    body: [ Statement | ImportOrExportDeclaration ];\n}\n</code></pre>",
+                "<p>Parsers must specify <code>sourceType</code> as <code>\"module\"</code> if the source has been parsed as an ES6 module. Otherwise, <code>sourceType</code> must be <code>\"script\"</code>.</p>"
+            ],
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Program <: Node {\n    type: \"Program\";\n    body: [ Directive | Statement ];\n}\n</code></pre>",
+                "<p>A complete program source tree.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 20.13659,
+            "url": "https://developer.mozilla.org/en-US/docs/Web"
+        }
     },
     "Functions": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">extend interface Function {\n    generator: boolean;\n}\n</code></pre>"
-        ],
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Function <: Node {\n    id: Identifier | null;\n    params: [ Pattern ];\n    body: FunctionBody;\n}\n</code></pre>",
-            "<p>A function <a href=#functiondeclaration>declaration</a> or <a href=#functionexpression>expression</a>.</p>"
-        ],
-        "/extensions/type-annotations.md": [
-            "<pre><code class=\"language-js\">extend interface Function {\n    returnType: TypeAnnotation | null;\n}\n</code></pre>",
-            "<p>The <code>returnType</code> property is used to specify the type annotation for the return value of the function.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">extend interface Function {\n    generator: boolean;\n}\n</code></pre>"
+            ],
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Function <: Node {\n    id: Identifier | null;\n    params: [ Pattern ];\n    body: FunctionBody;\n}\n</code></pre>",
+                "<p>A function <a href=#functiondeclaration>declaration</a> or <a href=#functionexpression>expression</a>.</p>"
+            ],
+            "/extensions/type-annotations.md": [
+                "<pre><code class=\"language-js\">extend interface Function {\n    returnType: TypeAnnotation | null;\n}\n</code></pre>",
+                "<p>The <code>returnType</code> property is used to specify the type annotation for the return value of the function.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 62.353653,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions"
+        }
     },
     "Statements/ForOfStatement": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ForOfStatement <: ForInStatement {\n    type: \"ForOfStatement\";\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ForOfStatement <: ForInStatement {\n    type: \"ForOfStatement\";\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 68.78046,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of"
+        }
     },
     "Declarations/VariableDeclaration": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">extend interface VariableDeclaration {\n    kind: \"var\" | \"let\" | \"const\";\n}\n</code></pre>"
-        ],
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface VariableDeclaration <: Declaration {\n    type: \"VariableDeclaration\";\n    declarations: [ VariableDeclarator ];\n    kind: \"var\";\n}\n</code></pre>",
-            "<p>A variable declaration.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">extend interface VariableDeclaration {\n    kind: \"var\" | \"let\" | \"const\";\n}\n</code></pre>"
+            ],
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface VariableDeclaration <: Declaration {\n    type: \"VariableDeclaration\";\n    declarations: [ VariableDeclarator ];\n    kind: \"var\";\n}\n</code></pre>",
+                "<p>A variable declaration.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 56.170116,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Variable"
+        }
     },
     "Expressions": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface Super <: Node {\n    type: \"Super\";\n}\n\nextend interface CallExpression {\n    callee: Expression | Super;\n    arguments: [ Expression | SpreadElement ];\n}\n\nextend interface MemberExpression {\n    object: Expression | Super;\n}\n</code></pre>",
-            "<p>A <code>super</code> pseudo-expression.</p>",
-            "<pre><code class=\"language-js\">interface SpreadElement <: Node {\n    type: \"SpreadElement\";\n    argument: Expression;\n}\n\nextend interface ArrayExpression {\n    elements: [ Expression | SpreadElement | null ];\n}\n\nextend interface NewExpression {\n    arguments: [ Expression | SpreadElement ];\n}\n</code></pre>",
-            "<p>Spread expression, e.g., <code>[head, ...iter, tail]</code>, <code>f(head, ...iter, ...tail)</code>.</p>",
-            "<p><strong>FIXME:</strong> This describes the Esprima and Acorn behaviors, which is not currently aligned with the SpiderMonkey behavior.</p>",
-            "<pre><code class=\"language-js\">extend interface AssignmentExpression {\n    left: Pattern;\n}\n</code></pre>",
-            "<p>Note that pre-ES6 code was allowed <a href=https://github.com/estree/estree/pull/20#issuecomment-74584758>to pass references around</a> and so <code>left</code> was much more liberal; an implementation might choose to continue using <a href=https://github.com/estree/estree/blob/master/es5.md#assignmentexpression>old definition</a> if it needs to support such legacy code.</p>",
-            "<pre><code class=\"language-js\">extend interface Property {\n    key: Expression;\n    method: boolean;\n    shorthand: boolean;\n    computed: boolean;\n}\n</code></pre>"
-        ],
-        "/es2018.md": [
-            "<pre><code class=\"language-js\">extend interface ObjectExpression {\n    properties: [ Property | SpreadElement ];\n}\n</code></pre>",
-            "<p>Spread properties, e.g., <code>{a: 1, ...obj, b: 2}</code>.</p>"
-        ],
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Expression <: Node { }\n</code></pre>",
-            "<p>Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface Super <: Node {\n    type: \"Super\";\n}\n\nextend interface CallExpression {\n    callee: Expression | Super;\n    arguments: [ Expression | SpreadElement ];\n}\n\nextend interface MemberExpression {\n    object: Expression | Super;\n}\n</code></pre>",
+                "<p>A <code>super</code> pseudo-expression.</p>",
+                "<pre><code class=\"language-js\">interface SpreadElement <: Node {\n    type: \"SpreadElement\";\n    argument: Expression;\n}\n\nextend interface ArrayExpression {\n    elements: [ Expression | SpreadElement | null ];\n}\n\nextend interface NewExpression {\n    arguments: [ Expression | SpreadElement ];\n}\n</code></pre>",
+                "<p>Spread expression, e.g., <code>[head, ...iter, tail]</code>, <code>f(head, ...iter, ...tail)</code>.</p>",
+                "<p><strong>FIXME:</strong> This describes the Esprima and Acorn behaviors, which is not currently aligned with the SpiderMonkey behavior.</p>",
+                "<pre><code class=\"language-js\">extend interface AssignmentExpression {\n    left: Pattern;\n}\n</code></pre>",
+                "<p>Note that pre-ES6 code was allowed <a href=https://github.com/estree/estree/pull/20#issuecomment-74584758>to pass references around</a> and so <code>left</code> was much more liberal; an implementation might choose to continue using <a href=https://github.com/estree/estree/blob/master/es5.md#assignmentexpression>old definition</a> if it needs to support such legacy code.</p>",
+                "<pre><code class=\"language-js\">extend interface Property {\n    key: Expression;\n    method: boolean;\n    shorthand: boolean;\n    computed: boolean;\n}\n</code></pre>"
+            ],
+            "/es2018.md": [
+                "<pre><code class=\"language-js\">extend interface ObjectExpression {\n    properties: [ Property | SpreadElement ];\n}\n</code></pre>",
+                "<p>Spread properties, e.g., <code>{a: 1, ...obj, b: 2}</code>.</p>"
+            ],
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Expression <: Node { }\n</code></pre>",
+                "<p>Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 60.770733,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions"
+        }
     },
     "Expressions/ArrowFunctionExpression": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ArrowFunctionExpression <: Function, Expression {\n    type: \"ArrowFunctionExpression\";\n    body: FunctionBody | Expression;\n    expression: boolean;\n    generator: false;\n}\n</code></pre>",
-            "<p>A fat arrow function expression, e.g., <code>let foo = (bar) => { /* body */ }</code>.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ArrowFunctionExpression <: Function, Expression {\n    type: \"ArrowFunctionExpression\";\n    body: FunctionBody | Expression;\n    expression: boolean;\n    generator: false;\n}\n</code></pre>",
+                "<p>A fat arrow function expression, e.g., <code>let foo = (bar) => { /* body */ }</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 102.42083,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions"
+        }
     },
     "Expressions/YieldExpression": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface YieldExpression <: Expression {\n    type: \"YieldExpression\";\n    argument: Expression | null;\n    delegate: boolean;\n}\n</code></pre>",
-            "<p>A <code>yield</code> expression.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface YieldExpression <: Expression {\n    type: \"YieldExpression\";\n    argument: Expression | null;\n    delegate: boolean;\n}\n</code></pre>",
+                "<p>A <code>yield</code> expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 78.57264,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield"
+        }
     },
     "Template Literals/TemplateLiteral": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface TemplateLiteral <: Expression {\n    type: \"TemplateLiteral\";\n    quasis: [ TemplateElement ];\n    expressions: [ Expression ];\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface TemplateLiteral <: Expression {\n    type: \"TemplateLiteral\";\n    quasis: [ TemplateElement ];\n    expressions: [ Expression ];\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 66.114265,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Literal"
+        }
     },
     "Template Literals/TaggedTemplateExpression": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface TaggedTemplateExpression <: Expression {\n    type: \"TaggedTemplateExpression\";\n    tag: Expression;\n    quasi: TemplateLiteral;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface TaggedTemplateExpression <: Expression {\n    type: \"TaggedTemplateExpression\";\n    tag: Expression;\n    quasi: TemplateLiteral;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 73.72653,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals"
+        }
     },
     "Template Literals/TemplateElement": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface TemplateElement <: Node {\n    type: \"TemplateElement\";\n    tail: boolean;\n    value: {\n        cooked: string;\n        raw: string;\n    };\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface TemplateElement <: Node {\n    type: \"TemplateElement\";\n    tail: boolean;\n    value: {\n        cooked: string;\n        raw: string;\n    };\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 66.83912,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template"
+        }
     },
     "Patterns/ObjectPattern": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface AssignmentProperty <: Property {\n    type: \"Property\"; // inherited\n    value: Pattern;\n    kind: \"init\";\n    method: false;\n}\n\ninterface ObjectPattern <: Pattern {\n    type: \"ObjectPattern\";\n    properties: [ AssignmentProperty ];\n}\n</code></pre>"
-        ],
-        "/extensions/type-annotations.md": [
-            "<pre><code class=\"language-js\">extend interface ObjectPattern {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface AssignmentProperty <: Property {\n    type: \"Property\"; // inherited\n    value: Pattern;\n    kind: \"init\";\n    method: false;\n}\n\ninterface ObjectPattern <: Pattern {\n    type: \"ObjectPattern\";\n    properties: [ AssignmentProperty ];\n}\n</code></pre>"
+            ],
+            "/extensions/type-annotations.md": [
+                "<pre><code class=\"language-js\">extend interface ObjectPattern {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 62.4181,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Element/pattern"
+        }
     },
     "Patterns/ArrayPattern": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ArrayPattern <: Pattern {\n    type: \"ArrayPattern\";\n    elements: [ Pattern | null ];\n}\n</code></pre>"
-        ],
-        "/extensions/type-annotations.md": [
-            "<pre><code class=\"language-js\">extend interface ArrayPattern {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ArrayPattern <: Pattern {\n    type: \"ArrayPattern\";\n    elements: [ Pattern | null ];\n}\n</code></pre>"
+            ],
+            "/extensions/type-annotations.md": [
+                "<pre><code class=\"language-js\">extend interface ArrayPattern {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 59.374924,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Element/pattern"
+        }
     },
     "Patterns/RestElement": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface RestElement <: Pattern {\n    type: \"RestElement\";\n    argument: Pattern;\n}\n</code></pre>"
-        ],
-        "/extensions/type-annotations.md": [
-            "<pre><code class=\"language-js\">extend interface RestElement {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface RestElement <: Pattern {\n    type: \"RestElement\";\n    argument: Pattern;\n}\n</code></pre>"
+            ],
+            "/extensions/type-annotations.md": [
+                "<pre><code class=\"language-js\">extend interface RestElement {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 66.49734,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/REST"
+        }
     },
     "Patterns/AssignmentPattern": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface AssignmentPattern <: Pattern {\n    type: \"AssignmentPattern\";\n    left: Pattern;\n    right: Expression;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface AssignmentPattern <: Pattern {\n    type: \"AssignmentPattern\";\n    left: Pattern;\n    right: Expression;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 60.324474,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Element/pattern"
+        }
     },
     "Classes": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface Class <: Node {\n    id: Identifier | null;\n    superClass: Expression | null;\n    body: ClassBody;\n}\n</code></pre>"
-        ],
-        "/es2022.md": [
-            "<p>These language extensions cover following class features proposals:</p>",
-            "<p><a href=https://github.com/tc39/proposal-class-fields>Class Fields</a></p>",
-            "<p><a href=https://github.com/tc39/proposal-static-class-features/>Static Class Features</a></p>",
-            "<p><a href=https://github.com/tc39/proposal-private-methods>Private Methods</a></p>",
-            "<p><a href=https://github.com/tc39/proposal-class-static-block>Static Initialization Blocks</a>.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface Class <: Node {\n    id: Identifier | null;\n    superClass: Expression | null;\n    body: ClassBody;\n}\n</code></pre>"
+            ],
+            "/es2022.md": [
+                "<p>These language extensions cover following class features proposals:</p>",
+                "<p><a href=https://github.com/tc39/proposal-class-fields>Class Fields</a></p>",
+                "<p><a href=https://github.com/tc39/proposal-static-class-features/>Static Class Features</a></p>",
+                "<p><a href=https://github.com/tc39/proposal-private-methods>Private Methods</a></p>",
+                "<p><a href=https://github.com/tc39/proposal-class-static-block>Static Initialization Blocks</a>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 62.170723,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes"
+        }
     },
     "Classes/ClassBody": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ClassBody <: Node {\n    type: \"ClassBody\";\n    body: [ MethodDefinition ];\n}\n</code></pre>"
-        ],
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">extend interface ClassBody {\n    body: [ MethodDefinition | PropertyDefinition | StaticBlock ];\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ClassBody <: Node {\n    type: \"ClassBody\";\n    body: [ MethodDefinition ];\n}\n</code></pre>"
+            ],
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">extend interface ClassBody {\n    body: [ MethodDefinition | PropertyDefinition | StaticBlock ];\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 52.60499,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/class"
+        }
     },
     "Classes/MethodDefinition": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface MethodDefinition <: Node {\n    type: \"MethodDefinition\";\n    key: Expression;\n    value: FunctionExpression;\n    kind: \"constructor\" | \"method\" | \"get\" | \"set\";\n    computed: boolean;\n    static: boolean;\n}\n</code></pre>"
-        ],
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">extend interface MethodDefinition {\n    key: Expression | PrivateIdentifier;\n}\n</code></pre>",
-            "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code> and <code>kind</code> can not be <code>\"constructor\"</code>.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface MethodDefinition <: Node {\n    type: \"MethodDefinition\";\n    key: Expression;\n    value: FunctionExpression;\n    kind: \"constructor\" | \"method\" | \"get\" | \"set\";\n    computed: boolean;\n    static: boolean;\n}\n</code></pre>"
+            ],
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">extend interface MethodDefinition {\n    key: Expression | PrivateIdentifier;\n}\n</code></pre>",
+                "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code> and <code>kind</code> can not be <code>\"constructor\"</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 53.943817,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dfn"
+        }
     },
     "Classes/ClassDeclaration": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ClassDeclaration <: Class, Declaration {\n    type: \"ClassDeclaration\";\n    id: Identifier;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ClassDeclaration <: Class, Declaration {\n    type: \"ClassDeclaration\";\n    id: Identifier;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 56.336704,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/class"
+        }
     },
     "Classes/ClassExpression": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ClassExpression <: Class, Expression {\n    type: \"ClassExpression\";\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ClassExpression <: Class, Expression {\n    type: \"ClassExpression\";\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 91.84884,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/class"
+        }
     },
     "Classes/MetaProperty": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface MetaProperty <: Expression {\n    type: \"MetaProperty\";\n    meta: Identifier;\n    property: Identifier;\n}\n</code></pre>",
-            "<p><code>MetaProperty</code> node represents <code>new.target</code> meta property in ES2015. In the future, it will represent other meta properties as well.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface MetaProperty <: Expression {\n    type: \"MetaProperty\";\n    meta: Identifier;\n    property: Identifier;\n}\n</code></pre>",
+                "<p><code>MetaProperty</code> node represents <code>new.target</code> meta property in ES2015. In the future, it will represent other meta properties as well.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 55.8429,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import.meta"
+        }
     },
-    "Modules/ModuleDeclaration": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ModuleDeclaration <: Node { }\n</code></pre>",
-            "<p>A module <code>import</code> or <code>export</code> declaration.</p>"
-        ]
+    "Modules/ImportOrExportDeclaration": {
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ImportOrExportDeclaration <: Node { }\n</code></pre>",
+                "<p>An <code>import</code> or <code>export</code> declaration.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 85.88031,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export"
+        }
     },
     "Modules/ModuleSpecifier": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ModuleSpecifier <: Node {\n    local: Identifier;\n}\n</code></pre>",
-            "<p>A specifier in an import or export declaration.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ModuleSpecifier <: Node {\n    local: Identifier;\n}\n</code></pre>",
+                "<p>A specifier in an import or export declaration.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 45.864616,
+            "url": "https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/Module"
+        }
     },
     "Modules/Imports/ImportDeclaration": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ImportDeclaration <: ModuleDeclaration {\n    type: \"ImportDeclaration\";\n    specifiers: [ ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier ];\n    source: Literal;\n}\n</code></pre>",
-            "<p>An import declaration, e.g., <code>import foo from \"mod\";</code>.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ImportDeclaration <: ImportOrExportDeclaration {\n    type: \"ImportDeclaration\";\n    specifiers: [ ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier ];\n    source: Literal;\n}\n</code></pre>",
+                "<p>An import declaration, e.g., <code>import foo from \"mod\";</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 63.662712,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import"
+        }
     },
     "Modules/Imports/ImportSpecifier": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ImportSpecifier <: ModuleSpecifier {\n    type: \"ImportSpecifier\";\n    imported: Identifier;\n}\n</code></pre>",
-            "<p>An imported variable binding, e.g., <code>{foo}</code> in <code>import {foo} from \"mod\"</code> or <code>{foo as bar}</code> in <code>import {foo as bar} from \"mod\"</code>. The <code>imported</code> field refers to the name of the export imported from the module. The <code>local</code> field refers to the binding imported into the local module scope. If it is a basic named import, such as in <code>import {foo} from \"mod\"</code>, both <code>imported</code> and <code>local</code> are equivalent <code>Identifier</code> nodes; in this case an <code>Identifier</code> node representing <code>foo</code>. If it is an aliased import, such as in <code>import {foo as bar} from \"mod\"</code>, the <code>imported</code> field is an <code>Identifier</code> node representing <code>foo</code>, and the <code>local</code> field is an <code>Identifier</code> node representing <code>bar</code>.</p>"
-        ],
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">extend interface ImportSpecifier <: ModuleSpecifier {\n    imported: Identifier | Literal;\n}\n</code></pre>",
-            "<p>If <code>imported</code> is a <code>Literal</code>, <code>imported.value</code> must be a string without lone surrogate.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ImportSpecifier <: ModuleSpecifier {\n    type: \"ImportSpecifier\";\n    imported: Identifier;\n}\n</code></pre>",
+                "<p>An imported variable binding, e.g., <code>{foo}</code> in <code>import {foo} from \"mod\"</code> or <code>{foo as bar}</code> in <code>import {foo as bar} from \"mod\"</code>. The <code>imported</code> field refers to the name of the export imported from the module. The <code>local</code> field refers to the binding imported into the local module scope. If it is a basic named import, such as in <code>import {foo} from \"mod\"</code>, both <code>imported</code> and <code>local</code> are equivalent <code>Identifier</code> nodes; in this case an <code>Identifier</code> node representing <code>foo</code>. If it is an aliased import, such as in <code>import {foo as bar} from \"mod\"</code>, the <code>imported</code> field is an <code>Identifier</code> node representing <code>foo</code>, and the <code>local</code> field is an <code>Identifier</code> node representing <code>bar</code>.</p>"
+            ],
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">extend interface ImportSpecifier <: ModuleSpecifier {\n    imported: Identifier | Literal;\n}\n</code></pre>",
+                "<p>If <code>imported</code> is a <code>Literal</code>, <code>imported.value</code> must be a string without lone surrogate.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 65.779,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import"
+        }
     },
     "Modules/Imports/ImportDefaultSpecifier": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ImportDefaultSpecifier <: ModuleSpecifier {\n    type: \"ImportDefaultSpecifier\";\n}\n</code></pre>",
-            "<p>A default import specifier, e.g., <code>foo</code> in <code>import foo from \"mod.js\"</code>.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ImportDefaultSpecifier <: ModuleSpecifier {\n    type: \"ImportDefaultSpecifier\";\n}\n</code></pre>",
+                "<p>A default import specifier, e.g., <code>foo</code> in <code>import foo from \"mod.js\"</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 70.13171,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import"
+        }
     },
     "Modules/Imports/ImportNamespaceSpecifier": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ImportNamespaceSpecifier <: ModuleSpecifier {\n    type: \"ImportNamespaceSpecifier\";\n}\n</code></pre>",
-            "<p>A namespace import specifier, e.g., <code>* as foo</code> in <code>import * as foo from \"mod.js\"</code>.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ImportNamespaceSpecifier <: ModuleSpecifier {\n    type: \"ImportNamespaceSpecifier\";\n}\n</code></pre>",
+                "<p>A namespace import specifier, e.g., <code>* as foo</code> in <code>import * as foo from \"mod.js\"</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 73.605415,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import"
+        }
     },
     "Modules/Exports/ExportNamedDeclaration": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ExportNamedDeclaration <: ModuleDeclaration {\n    type: \"ExportNamedDeclaration\";\n    declaration: Declaration | null;\n    specifiers: [ ExportSpecifier ];\n    source: Literal | null;\n}\n</code></pre>",
-            "<p>An export named declaration, e.g., <code>export {foo, bar};</code>, <code>export {foo} from \"mod\";</code> or <code>export var foo = 1;</code>.</p>",
-            "<p><em>Note: Having <code>declaration</code> populated with non-empty <code>specifiers</code> or non-null <code>source</code> results in an invalid state.</em></p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ExportNamedDeclaration <: ImportOrExportDeclaration {\n    type: \"ExportNamedDeclaration\";\n    declaration: Declaration | null;\n    specifiers: [ ExportSpecifier ];\n    source: Literal | null;\n}\n</code></pre>",
+                "<p>An export named declaration, e.g., <code>export {foo, bar};</code>, <code>export {foo} from \"mod\";</code> or <code>export var foo = 1;</code>.</p>",
+                "<p><em>Note: Having <code>declaration</code> populated with non-empty <code>specifiers</code> or non-null <code>source</code> results in an invalid state.</em></p>"
+            ]
+        },
+        "mdn": {
+            "score": 86.0516,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export"
+        }
     },
     "Modules/Exports/ExportSpecifier": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ExportSpecifier <: ModuleSpecifier {\n    type: \"ExportSpecifier\";\n    exported: Identifier;\n}\n</code></pre>",
-            "<p>An exported variable binding, e.g., <code>{foo}</code> in <code>export {foo}</code> or <code>{bar as foo}</code> in <code>export {bar as foo}</code>. The <code>exported</code> field refers to the name exported in the module. The <code>local</code> field refers to the binding into the local module scope. If it is a basic named export, such as in <code>export {foo}</code>, both <code>exported</code> and <code>local</code> are equivalent <code>Identifier</code> nodes; in this case an <code>Identifier</code> node representing <code>foo</code>. If it is an aliased export, such as in <code>export {bar as foo}</code>, the <code>exported</code> field is an <code>Identifier</code> node representing <code>foo</code>, and the <code>local</code> field is an <code>Identifier</code> node representing <code>bar</code>.</p>"
-        ],
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">extend interface ExportSpecifier <: ModuleSpecifier {\n    local: Identifier | Literal;\n    exported: Identifier | Literal;\n}\n</code></pre>",
-            "<p><code>local</code> can be <code>Literal</code> only if the <code>source</code> of the <code>ExportNamedDeclaration</code> of the parent of this node is not <code>null</code>. e.g. <code>export { \"foo\" as \"foo\" } from \"mod\"</code> is valid, <code>export { \"foo\" as \"foo\" }</code> is invalid.</p>",
-            "<p>If <code>exported</code>/<code>local</code> is <code>Literal</code>, <code>exported.value</code>/<code>local.value</code> must be a string without lone surrogate.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ExportSpecifier <: ModuleSpecifier {\n    type: \"ExportSpecifier\";\n    exported: Identifier;\n}\n</code></pre>",
+                "<p>An exported variable binding, e.g., <code>{foo}</code> in <code>export {foo}</code> or <code>{bar as foo}</code> in <code>export {bar as foo}</code>. The <code>exported</code> field refers to the name exported in the module. The <code>local</code> field refers to the binding into the local module scope. If it is a basic named export, such as in <code>export {foo}</code>, both <code>exported</code> and <code>local</code> are equivalent <code>Identifier</code> nodes; in this case an <code>Identifier</code> node representing <code>foo</code>. If it is an aliased export, such as in <code>export {bar as foo}</code>, the <code>exported</code> field is an <code>Identifier</code> node representing <code>foo</code>, and the <code>local</code> field is an <code>Identifier</code> node representing <code>bar</code>.</p>"
+            ],
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">extend interface ExportSpecifier <: ModuleSpecifier {\n    local: Identifier | Literal;\n    exported: Identifier | Literal;\n}\n</code></pre>",
+                "<p><code>local</code> can be <code>Literal</code> only if the <code>source</code> of the <code>ExportNamedDeclaration</code> of the parent of this node is not <code>null</code>. e.g. <code>export { \"foo\" as \"foo\" } from \"mod\"</code> is valid, <code>export { \"foo\" as \"foo\" }</code> is invalid.</p>",
+                "<p>If <code>exported</code>/<code>local</code> is <code>Literal</code>, <code>exported.value</code>/<code>local.value</code> must be a string without lone surrogate.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 69.593575,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export"
+        }
     },
     "Modules/Exports/ExportDefaultDeclaration": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface AnonymousDefaultExportedFunctionDeclaration <: Function {\n    type: \"FunctionDeclaration\";\n    id: null;\n}\n\ninterface AnonymousDefaultExportedClassDeclaration <: Class {\n    type: \"ClassDeclaration\";\n    id: null;\n}\n\ninterface ExportDefaultDeclaration <: ModuleDeclaration {\n    type: \"ExportDefaultDeclaration\";\n    declaration: AnonymousDefaultExportedFunctionDeclaration | FunctionDeclaration | AnonymousDefaultExportedClassDeclaration | ClassDeclaration | Expression;\n}\n</code></pre>",
-            "<p>An export default declaration, e.g., <code>export default function () {};</code> or <code>export default 1;</code>.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface AnonymousDefaultExportedFunctionDeclaration <: Function {\n    type: \"FunctionDeclaration\";\n    id: null;\n}\n\ninterface AnonymousDefaultExportedClassDeclaration <: Class {\n    type: \"ClassDeclaration\";\n    id: null;\n}\n\ninterface ExportDefaultDeclaration <: ImportOrExportDeclaration {\n    type: \"ExportDefaultDeclaration\";\n    declaration: AnonymousDefaultExportedFunctionDeclaration | FunctionDeclaration | AnonymousDefaultExportedClassDeclaration | ClassDeclaration | Expression;\n}\n</code></pre>",
+                "<p>An export default declaration, e.g., <code>export default function () {};</code> or <code>export default 1;</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 82.29094,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export"
+        }
     },
     "Modules/Exports/ExportAllDeclaration": {
-        "/es2015.md": [
-            "<pre><code class=\"language-js\">interface ExportAllDeclaration <: ModuleDeclaration {\n    type: \"ExportAllDeclaration\";\n    source: Literal;\n}\n</code></pre>",
-            "<p>An export batch declaration, e.g., <code>export * from \"mod\";</code>.</p>"
-        ],
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">extend interface ExportAllDeclaration {\n    exported: Identifier | Literal | null;\n}\n</code></pre>",
-            "<p>If <code>exported</code> is <code>Literal</code>, <code>exported.value</code> must be a string without lone surrogate.</p>"
-        ]
+        "content": {
+            "/es2015.md": [
+                "<pre><code class=\"language-js\">interface ExportAllDeclaration <: ImportOrExportDeclaration {\n    type: \"ExportAllDeclaration\";\n    source: Literal;\n}\n</code></pre>",
+                "<p>An export batch declaration, e.g., <code>export * from \"mod\";</code>.</p>"
+            ],
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">extend interface ExportAllDeclaration {\n    exported: Identifier | Literal | null;\n}\n</code></pre>",
+                "<p>If <code>exported</code> is <code>Literal</code>, <code>exported.value</code> must be a string without lone surrogate.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 80.71121,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export"
+        }
     },
     "BinaryOperator": {
-        "/es2016.md": [
-            "<pre><code class=\"language-js\">extend enum BinaryOperator {\n    \"**\"\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2016.md": [
+                "<pre><code class=\"language-js\">extend enum BinaryOperator {\n    \"**\"\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 61.65475,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence"
+        }
     },
     "AssignmentOperator": {
-        "/es2016.md": [
-            "<pre><code class=\"language-js\">extend enum AssignmentOperator {\n    \"**=\"\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2016.md": [
+                "<pre><code class=\"language-js\">extend enum AssignmentOperator {\n    \"**=\"\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 59.253742,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator"
+        }
     },
     "Function": {
-        "/es2017.md": [
-            "<pre><code class=\"language-js\">extend interface Function {\n    async: boolean;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2017.md": [
+                "<pre><code class=\"language-js\">extend interface Function {\n    async: boolean;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 40.10254,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function"
+        }
     },
     "AwaitExpression": {
-        "/es2017.md": [
-            "<pre><code class=\"language-js\">interface AwaitExpression <: Expression {\n    type: \"AwaitExpression\";\n    argument: Expression;\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es2017.md": [
+                "<pre><code class=\"language-js\">interface AwaitExpression <: Expression {\n    type: \"AwaitExpression\";\n    argument: Expression;\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 71.198204,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await"
+        }
     },
     "Statements": {
-        "/es2018.md": [
-            "<pre><code class=\"language-js\">extend interface ForOfStatement {\n  await: boolean;\n}\n</code></pre>",
-            "<p><code>for-await-of</code> statements, e.g., <code>for await (const x of xs) {</code></p>"
-        ],
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Statement <: Node { }\n</code></pre>",
-            "<p>Any statement.</p>"
-        ]
+        "content": {
+            "/es2018.md": [
+                "<pre><code class=\"language-js\">extend interface ForOfStatement {\n  await: boolean;\n}\n</code></pre>",
+                "<p><code>for-await-of</code> statements, e.g., <code>for await (const x of xs) {</code></p>"
+            ],
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Statement <: Node { }\n</code></pre>",
+                "<p>Any statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 74.03744,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements"
+        }
     },
     "Template Literals": {
-        "/es2018.md": [
-            "<pre><code class=\"language-js\">extend interface TemplateElement {\n    value: {\n        cooked: string | null;\n        raw: string;\n    };\n}\n</code></pre>",
-            "<p>If the template literal is tagged and the text has an invalid escape, <code>cooked</code> will be <code>null</code>, e.g., <code>tag`\\unicode and \\u{55}` </code></p>"
-        ]
+        "content": {
+            "/es2018.md": [
+                "<pre><code class=\"language-js\">extend interface TemplateElement {\n    value: {\n        cooked: string | null;\n        raw: string;\n    };\n}\n</code></pre>",
+                "<p>If the template literal is tagged and the text has an invalid escape, <code>cooked</code> will be <code>null</code>, e.g., <code>tag`\\unicode and \\u{55}` </code></p>"
+            ]
+        },
+        "mdn": {
+            "score": 287.7495,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals"
+        }
     },
     "Patterns": {
-        "/es2018.md": [
-            "<pre><code class=\"language-js\">extend interface ObjectPattern {\n    properties: [ AssignmentProperty | RestElement ];\n}\n</code></pre>",
-            "<p>Rest properties, e.g., <code>{a, ...rest} = obj</code>.</p>"
-        ],
-        "/es5.md": [
-            "<p>Destructuring binding and assignment are not part of ES5, but all binding positions accept <code>Pattern</code> to allow for destructuring in ES6. Nevertheless, for ES5, the only <code>Pattern</code> subtype is <a href=#identifier><code>Identifier</code></a>.</p>",
-            "<pre><code class=\"language-js\">interface Pattern <: Node { }\n</code></pre>"
-        ]
+        "content": {
+            "/es2018.md": [
+                "<pre><code class=\"language-js\">extend interface ObjectPattern {\n    properties: [ AssignmentProperty | RestElement ];\n}\n</code></pre>",
+                "<p>Rest properties, e.g., <code>{a, ...rest} = obj</code>.</p>"
+            ],
+            "/es5.md": [
+                "<p>Destructuring binding and assignment are not part of ES5, but all binding positions accept <code>Pattern</code> to allow for destructuring in ES6. Nevertheless, for ES5, the only <code>Pattern</code> subtype is <a href=#identifier><code>Identifier</code></a>.</p>",
+                "<pre><code class=\"language-js\">interface Pattern <: Node { }\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 72.72745,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Patterns"
+        }
     },
     "Statements/CatchClause": {
-        "/es2019.md": [
-            "<pre><code class=\"language-js\">extend interface CatchClause {\n    param: Pattern | null;\n}\n</code></pre>",
-            "<p>The <code>param</code> is <code>null</code> if the <code>catch</code> binding is omitted. E.g., <code>try { foo() } catch { bar() }</code></p>"
-        ]
+        "content": {
+            "/es2019.md": [
+                "<pre><code class=\"language-js\">extend interface CatchClause {\n    param: Pattern | null;\n}\n</code></pre>",
+                "<p>The <code>param</code> is <code>null</code> if the <code>catch</code> binding is omitted. E.g., <code>try { foo() } catch { bar() }</code></p>"
+            ]
+        },
+        "mdn": {
+            "score": 55.596645,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch"
+        }
     },
     "Literal": {
-        "/es2020.md": [
-            "<pre><code class=\"language-js\">extend interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp | bigint;\n}\n</code></pre>",
-            "<p><code>value</code> property can be a <code>BigInt</code> value to represent <code>BigInt</code> literals<br/>such as <code>100n</code>.</p>"
-        ],
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp;\n}\n</code></pre>",
-            "<p>A literal token. Note that a literal can be an expression.</p>"
-        ]
+        "content": {
+            "/es2020.md": [
+                "<pre><code class=\"language-js\">extend interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp | bigint;\n}\n</code></pre>",
+                "<p><code>value</code> property can be a <code>BigInt</code> value to represent <code>BigInt</code> literals<br/>such as <code>100n</code>.</p>"
+            ],
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp;\n}\n</code></pre>",
+                "<p>A literal token. Note that a literal can be an expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 66.114265,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Literal"
+        }
     },
     "Literal/BigIntLiteral": {
-        "/es2020.md": [
-            "<pre><code class=\"language-js\">interface BigIntLiteral <: Literal {\n  bigint: string;\n}\n</code></pre>",
-            "<p><code>bigint</code> property is the string representation of the <code>BigInt</code> value.<br/>It doesn't include the suffix <code>n</code>.</p>",
-            "<p>In environments that don't support <code>BigInt</code> values, <code>value</code> property will be<br/><code>null</code> as the <code>BigInt</code> value can't be represented natively.</p>"
-        ]
+        "content": {
+            "/es2020.md": [
+                "<pre><code class=\"language-js\">interface BigIntLiteral <: Literal {\n  bigint: string;\n}\n</code></pre>",
+                "<p><code>bigint</code> property is the string representation of the <code>BigInt</code> value.<br/>It doesn't include the suffix <code>n</code>.</p>",
+                "<p>In environments that don't support <code>BigInt</code> values, <code>value</code> property will be<br/><code>null</code> as the <code>BigInt</code> value can't be represented natively.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 102.08548,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt"
+        }
     },
     "Expressions/ChainExpression": {
-        "/es2020.md": [
-            "<pre><code class=\"language-js\">interface ChainExpression <: Expression {\n  type: \"ChainExpression\";\n  expression: ChainElement;\n}\n\ninterface ChainElement <: Node {\n  optional: boolean;\n}\n\nextend interface CallExpression <: ChainElement {}\n\nextend interface MemberExpression <: ChainElement {}\n</code></pre>",
-            "<p>The <code>ChainExpression</code> node is the root of optional chaining.</p>",
-            "<p>The <code>ChainExpression</code> node contains one or more <code>ChainElement</code> nodes that are <code>optional:true</code>. On the other hand, <code>ChainElement</code> nodes that are <code>optional:true</code> belong to a <code>ChainExpression</code> node.</p>",
-            "<p>For backward compatibility, if all <code>ChainElement</code> nodes of a chain are <code>optional:false</code>, the <code>ChainExpression</code> node isn't inserted as the root of the chain.</p>",
-            "<p>Evaluation:</p>",
-            "<p>The <code>ChainExpression</code> node is evaluated to the result of the <code>expression</code> property's node.</p>",
-            "<p>If the <code>callee|object</code> property is evaluated to nullish and the <code>optional</code> property is <code>true</code>, then the node and ancestor nodes are skipped until the closest <code>ChainExpression</code> node, and the result of the <code>ChainExpression</code> node becomes <code>undefined</code>.</p>",
-            "<p><details><summary>For Examples:</summary></p>",
-            "<pre><code class=\"language-jsonc\">// obj.aaa.bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
-            "<pre><code class=\"language-jsonc\">// obj.aaa?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
-            "<pre><code class=\"language-jsonc\">// obj?.aaa.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
-            "<pre><code class=\"language-jsonc\">// obj?.aaa?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
-            "<pre><code class=\"language-jsonc\">// (obj.aaa).bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
-            "<pre><code class=\"language-jsonc\">// (obj.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
-            "<pre><code class=\"language-jsonc\">// (obj?.aaa).bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"ChainExpression\",\n    \"expression\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
-            "<pre><code class=\"language-jsonc\">// (obj?.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"ChainExpression\",\n      \"expression\": {\n        \"type\": \"MemberExpression\",\n        \"optional\": true,\n        \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n        \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n      }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
-            "<p></details></p>"
-        ]
+        "content": {
+            "/es2020.md": [
+                "<pre><code class=\"language-js\">interface ChainExpression <: Expression {\n  type: \"ChainExpression\";\n  expression: ChainElement;\n}\n\ninterface ChainElement <: Node {\n  optional: boolean;\n}\n\nextend interface CallExpression <: ChainElement {}\n\nextend interface MemberExpression <: ChainElement {}\n</code></pre>",
+                "<p>The <code>ChainExpression</code> node is the root of optional chaining.</p>",
+                "<p>The <code>ChainExpression</code> node contains one or more <code>ChainElement</code> nodes that are <code>optional:true</code>. On the other hand, <code>ChainElement</code> nodes that are <code>optional:true</code> belong to a <code>ChainExpression</code> node.</p>",
+                "<p>For backward compatibility, if all <code>ChainElement</code> nodes of a chain are <code>optional:false</code>, the <code>ChainExpression</code> node isn't inserted as the root of the chain.</p>",
+                "<p>Evaluation:</p>",
+                "<p>The <code>ChainExpression</code> node is evaluated to the result of the <code>expression</code> property's node.</p>",
+                "<p>If the <code>callee|object</code> property is evaluated to nullish and the <code>optional</code> property is <code>true</code>, then the node and ancestor nodes are skipped until the closest <code>ChainExpression</code> node, and the result of the <code>ChainExpression</code> node becomes <code>undefined</code>.</p>",
+                "<p><details><summary>For Examples:</summary></p>",
+                "<pre><code class=\"language-jsonc\">// obj.aaa.bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
+                "<pre><code class=\"language-jsonc\">// obj.aaa?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+                "<pre><code class=\"language-jsonc\">// obj?.aaa.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+                "<pre><code class=\"language-jsonc\">// obj?.aaa?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+                "<pre><code class=\"language-jsonc\">// (obj.aaa).bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
+                "<pre><code class=\"language-jsonc\">// (obj.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+                "<pre><code class=\"language-jsonc\">// (obj?.aaa).bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"ChainExpression\",\n    \"expression\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
+                "<pre><code class=\"language-jsonc\">// (obj?.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"ChainExpression\",\n      \"expression\": {\n        \"type\": \"MemberExpression\",\n        \"optional\": true,\n        \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n        \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n      }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
+                "<p></details></p>"
+            ]
+        },
+        "mdn": {
+            "score": 69.096115,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain"
+        }
     },
     "Expressions/ImportExpression": {
-        "/es2020.md": [
-            "<pre><code class=\"language-js\">interface ImportExpression <: Expression {\n  type: \"ImportExpression\";\n  source: Expression;\n}\n</code></pre>",
-            "<p><code>ImportExpression</code> node represents Dynamic Imports such as <code>import(source)</code>.<br/>The <code>source</code> property is the importing source as similar to <a href=es2015.md#importdeclaration>ImportDeclaration</a><br/>node, but it can be an arbitrary expression node.</p>"
-        ]
+        "content": {
+            "/es2020.md": [
+                "<pre><code class=\"language-js\">interface ImportExpression <: Expression {\n  type: \"ImportExpression\";\n  source: Expression;\n}\n</code></pre>",
+                "<p><code>ImportExpression</code> node represents Dynamic Imports such as <code>import(source)</code>.<br/>The <code>source</code> property is the importing source as similar to <a href=es2015.md#importdeclaration>ImportDeclaration</a><br/>node, but it can be an arbitrary expression node.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.982258,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import"
+        }
     },
     "Expressions/LogicalExpression": {
-        "/es2020.md": [
-            "<pre><code class=\"language-js\">extend enum LogicalOperator {\n    \"??\"\n}\n</code></pre>",
-            "<p>The <code>operator</code> property of the <code>LogicalExpression</code> node can be <code>\"??\"</code> to represent <a href=https://github.com/tc39/proposal-nullish-coalescing>Nullish Coalescing</a> syntax.</p>"
-        ]
+        "content": {
+            "/es2020.md": [
+                "<pre><code class=\"language-js\">extend enum LogicalOperator {\n    \"??\"\n}\n</code></pre>",
+                "<p>The <code>operator</code> property of the <code>LogicalExpression</code> node can be <code>\"??\"</code> to represent <a href=https://github.com/tc39/proposal-nullish-coalescing>Nullish Coalescing</a> syntax.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 68.76404,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND"
+        }
     },
     "Expressions/MetaProperty": {
-        "/es2020.md": [
-            "<p>Existing <a href=es2015.md#metaproperty>MetaProperty</a> node represents <code>import.meta</code> meta property as well.</p>"
-        ]
+        "content": {
+            "/es2020.md": [
+                "<p>Existing <a href=es2015.md#metaproperty>MetaProperty</a> node represents <code>import.meta</code> meta property as well.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 55.8429,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import.meta"
+        }
     },
     "Modules/ExportAllDeclaration": {
-        "/es2020.md": [
-            "<pre><code class=\"language-js\">extend interface ExportAllDeclaration {\n  exported: Identifier | null;\n}\n</code></pre>",
-            "<p>The <code>exported</code> property contains an <code>Identifier</code> when a different exported name is specified using <code>as</code>, e.g., <code>export * as foo from \"mod\";</code>.</p>"
-        ]
+        "content": {
+            "/es2020.md": [
+                "<pre><code class=\"language-js\">extend interface ExportAllDeclaration {\n  exported: Identifier | null;\n}\n</code></pre>",
+                "<p>The <code>exported</code> property contains an <code>Identifier</code> when a different exported name is specified using <code>as</code>, e.g., <code>export * as foo from \"mod\";</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 80.71121,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export"
+        }
     },
     "Expressions/AssignmentOperator": {
-        "/es2021.md": [
-            "<pre><code class=\"language-js\">extend enum AssignmentOperator {\n    \"||=\" | \"&&=\" | \"??=\"\n}\n</code></pre>",
-            "<p><a href=../es5.md#AssignmentExpression>AssignmentExpression</a> node has short-circuiting behavior if the <code>operator</code><br/>property is any of <code>\"||=\"</code>,<code>\"&&=\"</code>, and <code>\"??=\"</code>.</p>",
-            "<p>See <a href=https://github.com/tc39/proposal-logical-assignment>Logical Assignment Operators</a> for details.</p>"
-        ]
+        "content": {
+            "/es2021.md": [
+                "<pre><code class=\"language-js\">extend enum AssignmentOperator {\n    \"||=\" | \"&&=\" | \"??=\"\n}\n</code></pre>",
+                "<p><a href=../es5.md#AssignmentExpression>AssignmentExpression</a> node has short-circuiting behavior if the <code>operator</code><br/>property is any of <code>\"||=\"</code>,<code>\"&&=\"</code>, and <code>\"??=\"</code>.</p>",
+                "<p>See <a href=https://github.com/tc39/proposal-logical-assignment>Logical Assignment Operators</a> for details.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 59.253742,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator"
+        }
     },
     "Classes/PropertyDefinition": {
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">interface PropertyDefinition <: Node {\n    type: \"PropertyDefinition\";\n    key: Expression | PrivateIdentifier;\n    value: Expression | null;\n    computed: boolean;\n    static: boolean;\n}\n</code></pre>",
-            "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>"
-        ]
+        "content": {
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">interface PropertyDefinition <: Node {\n    type: \"PropertyDefinition\";\n    key: Expression | PrivateIdentifier;\n    value: Expression | null;\n    computed: boolean;\n    static: boolean;\n}\n</code></pre>",
+                "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 57.260628,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Value_definition_syntax"
+        }
     },
     "Classes/MethodDefinition/PrivateIdentifier": {
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">interface PrivateIdentifier <: Node {\n    type: \"PrivateIdentifier\";\n    name: string;\n}\n</code></pre>",
-            "<p>A private identifier refers to private class elements. For a private name <code>#a</code>, its <code>name</code> is <code>a</code>.</p>",
-            "<pre><code class=\"language-js\">extend interface MemberExpression {\n    property: Expression | PrivateIdentifier;\n}\n</code></pre>",
-            "<p>When <code>property</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>",
-            "<p>When <code>object</code> is a <code>Super</code>, <code>property</code> can not be a <code>PrivateIdentifier</code>.</p>"
-        ]
+        "content": {
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">interface PrivateIdentifier <: Node {\n    type: \"PrivateIdentifier\";\n    name: string;\n}\n</code></pre>",
+                "<p>A private identifier refers to private class elements. For a private name <code>#a</code>, its <code>name</code> is <code>a</code>.</p>",
+                "<pre><code class=\"language-js\">extend interface MemberExpression {\n    property: Expression | PrivateIdentifier;\n}\n</code></pre>",
+                "<p>When <code>property</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>",
+                "<p>When <code>object</code> is a <code>Super</code>, <code>property</code> can not be a <code>PrivateIdentifier</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 67.718376,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields"
+        }
     },
     "Classes/StaticBlock": {
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">interface StaticBlock <: BlockStatement {\n    type: \"StaticBlock\";\n}\n</code></pre>",
-            "<p>A static block <code>static { }</code> is a block statement serving as an additional static initializer.</p>"
-        ]
+        "content": {
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">interface StaticBlock <: BlockStatement {\n    type: \"StaticBlock\";\n}\n</code></pre>",
+                "<p>A static block <code>static { }</code> is a block statement serving as an additional static initializer.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 63.426285,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static"
+        }
     },
     "Classes/Expressions/BinaryExpression": {
-        "/es2022.md": [
-            "<pre><code class=\"language-js\">extend interface BinaryExpression <: Expression {\n    left: Expression | PrivateIdentifier;\n}\n</code></pre>",
-            "<p><code>left</code> can be a private identifier (e.g. <code>#foo</code>) when <code>operator</code> is <code>\"in\"</code>.</p>",
-            "<p>See <a href=https://github.com/tc39/proposal-private-fields-in-in>Ergonomic brand checks for Private Fields</a> for details.</p>"
-        ]
+        "content": {
+            "/es2022.md": [
+                "<pre><code class=\"language-js\">extend interface BinaryExpression <: Expression {\n    left: Expression | PrivateIdentifier;\n}\n</code></pre>",
+                "<p><code>left</code> can be a private identifier (e.g. <code>#foo</code>) when <code>operator</code> is <code>\"in\"</code>.</p>",
+                "<p>See <a href=https://github.com/tc39/proposal-private-fields-in-in>Ergonomic brand checks for Private Fields</a> for details.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 49.742023,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Expression_statement"
+        }
     },
     "Modules": {
-        "/es2022.md": [
-            "<p>See <a href=https://github.com/tc39/ecma262/pull/2154>Arbitrary module namespace identifier names</a> for more details.</p>"
-        ]
+        "content": {
+            "/es2022.md": [
+                "<p>See <a href=https://github.com/tc39/ecma262/pull/2154>Arbitrary module namespace identifier names</a> for more details.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 59.94069,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules"
+        }
     },
     "Node objects": {
-        "/es5.md": [
-            "<p>ESTree AST nodes are represented as <code>Node</code> objects, which may have any prototype inheritance but which implement the following interface:</p>",
-            "<pre><code class=\"language-js\">interface Node {\n    type: string;\n    loc: SourceLocation | null;\n}\n</code></pre>",
-            "<p>The <code>type</code> field is a string representing the AST variant type. Each subtype of <code>Node</code> is documented below with the specific string of its <code>type</code> field. You can use this field to determine which interface a node implements.</p>",
-            "<p>The <code>loc</code> field represents the source location information of the node. If the node contains no information about the source location, the field is <code>null</code>; otherwise it is an object consisting of a start position (the position of the first character of the parsed source region) and an end position (the position of the first character after the parsed source region):</p>",
-            "<pre><code class=\"language-js\">interface SourceLocation {\n    source: string | null;\n    start: Position;\n    end: Position;\n}\n</code></pre>",
-            "<p>Each <code>Position</code> object consists of a <code>line</code> number (1-indexed) and a <code>column</code> number (0-indexed):</p>",
-            "<pre><code class=\"language-js\">interface Position {\n    line: number; // >= 1\n    column: number; // >= 0\n}\n</code></pre>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<p>ESTree AST nodes are represented as <code>Node</code> objects, which may have any prototype inheritance but which implement the following interface:</p>",
+                "<pre><code class=\"language-js\">interface Node {\n    type: string;\n    loc: SourceLocation | null;\n}\n</code></pre>",
+                "<p>The <code>type</code> field is a string representing the AST variant type. Each subtype of <code>Node</code> is documented below with the specific string of its <code>type</code> field. You can use this field to determine which interface a node implements.</p>",
+                "<p>The <code>loc</code> field represents the source location information of the node. If the node contains no information about the source location, the field is <code>null</code>; otherwise it is an object consisting of a start position (the position of the first character of the parsed source region) and an end position (the position of the first character after the parsed source region):</p>",
+                "<pre><code class=\"language-js\">interface SourceLocation {\n    source: string | null;\n    start: Position;\n    end: Position;\n}\n</code></pre>",
+                "<p>Each <code>Position</code> object consists of a <code>line</code> number (1-indexed) and a <code>column</code> number (0-indexed):</p>",
+                "<pre><code class=\"language-js\">interface Position {\n    line: number; // >= 1\n    column: number; // >= 0\n}\n</code></pre>"
+            ]
+        },
+        "mdn": {
+            "score": 55.857986,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Transferable_objects"
+        }
     },
     "Identifier": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Identifier <: Expression, Pattern {\n    type: \"Identifier\";\n    name: string;\n}\n</code></pre>",
-            "<p>An identifier. Note that an identifier may be an expression or a destructuring pattern.</p>"
-        ],
-        "/extensions/type-annotations.md": [
-            "<pre><code class=\"language-js\">extend interface Identifier {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>",
-            "<p>The <code>typeAnnotation</code> property is used only in the case of variable declarations with type annotations or function arguments with type annotations.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Identifier <: Expression, Pattern {\n    type: \"Identifier\";\n    name: string;\n}\n</code></pre>",
+                "<p>An identifier. Note that an identifier may be an expression or a destructuring pattern.</p>"
+            ],
+            "/extensions/type-annotations.md": [
+                "<pre><code class=\"language-js\">extend interface Identifier {\n    typeAnnotation: TypeAnnotation | null;\n}\n</code></pre>",
+                "<p>The <code>typeAnnotation</code> property is used only in the case of variable declarations with type annotations or function arguments with type annotations.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.165615,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Identifier"
+        }
     },
     "Literal/RegExpLiteral": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface RegExpLiteral <: Literal {\n  regex: {\n    pattern: string;\n    flags: string;\n  };\n}\n</code></pre>",
-            "<p>The <code>regex</code> property allows regexes to be represented in environments that don’t<br/>support certain flags such as <code>y</code> or <code>u</code>. In environments that don't support<br/>these flags <code>value</code> will be <code>null</code> as the regex can't be represented natively.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface RegExpLiteral <: Literal {\n  regex: {\n    pattern: string;\n    flags: string;\n  };\n}\n</code></pre>",
+                "<p>The <code>regex</code> property allows regexes to be represented in environments that don’t<br/>support certain flags such as <code>y</code> or <code>u</code>. In environments that don't support<br/>these flags <code>value</code> will be <code>null</code> as the regex can't be represented natively.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 95.97859,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp"
+        }
     },
     "Statements/ExpressionStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ExpressionStatement <: Statement {\n    type: \"ExpressionStatement\";\n    expression: Expression;\n}\n</code></pre>",
-            "<p>An expression statement, i.e., a statement consisting of a single expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ExpressionStatement <: Statement {\n    type: \"ExpressionStatement\";\n    expression: Expression;\n}\n</code></pre>",
+                "<p>An expression statement, i.e., a statement consisting of a single expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 104.828316,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Expression_statement"
+        }
     },
     "Statements/Directive": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Directive <: ExpressionStatement {\n    expression: Literal;\n    directive: string;\n}\n</code></pre>",
-            "<p>A directive from the directive prologue of a script or function.<br/>The <code>directive</code> property is the raw string source of the directive without quotes.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Directive <: ExpressionStatement {\n    expression: Literal;\n    directive: string;\n}\n</code></pre>",
+                "<p>A directive from the directive prologue of a script or function.<br/>The <code>directive</code> property is the raw string source of the directive without quotes.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 56.734802,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Fetch_directive"
+        }
     },
     "Statements/BlockStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface BlockStatement <: Statement {\n    type: \"BlockStatement\";\n    body: [ Statement ];\n}\n</code></pre>",
-            "<p>A block statement, i.e., a sequence of statements surrounded by braces.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface BlockStatement <: Statement {\n    type: \"BlockStatement\";\n    body: [ Statement ];\n}\n</code></pre>",
+                "<p>A block statement, i.e., a sequence of statements surrounded by braces.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.25025,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Statement"
+        }
     },
     "Statements/FunctionBody": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface FunctionBody <: BlockStatement {\n    body: [ Directive | Statement ];\n}\n</code></pre>",
-            "<p>The body of a function, which is a block statement that may begin with directives.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface FunctionBody <: BlockStatement {\n    body: [ Directive | Statement ];\n}\n</code></pre>",
+                "<p>The body of a function, which is a block statement that may begin with directives.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 53.62452,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Missing_curly_after_function_body"
+        }
     },
     "Statements/EmptyStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface EmptyStatement <: Statement {\n    type: \"EmptyStatement\";\n}\n</code></pre>",
-            "<p>An empty statement, i.e., a solitary semicolon.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface EmptyStatement <: Statement {\n    type: \"EmptyStatement\";\n}\n</code></pre>",
+                "<p>An empty statement, i.e., a solitary semicolon.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 68.249,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Empty"
+        }
     },
     "Statements/DebuggerStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface DebuggerStatement <: Statement {\n    type: \"DebuggerStatement\";\n}\n</code></pre>",
-            "<p>A <code>debugger</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface DebuggerStatement <: Statement {\n    type: \"DebuggerStatement\";\n}\n</code></pre>",
+                "<p>A <code>debugger</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 79.76492,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger"
+        }
     },
     "Statements/WithStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface WithStatement <: Statement {\n    type: \"WithStatement\";\n    object: Expression;\n    body: Statement;\n}\n</code></pre>",
-            "<p>A <code>with</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface WithStatement <: Statement {\n    type: \"WithStatement\";\n    object: Expression;\n    body: Statement;\n}\n</code></pre>",
+                "<p>A <code>with</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.25025,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Statement"
+        }
     },
     "Statements/Control flow/ReturnStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ReturnStatement <: Statement {\n    type: \"ReturnStatement\";\n    argument: Expression | null;\n}\n</code></pre>",
-            "<p>A <code>return</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ReturnStatement <: Statement {\n    type: \"ReturnStatement\";\n    argument: Expression | null;\n}\n</code></pre>",
+                "<p>A <code>return</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 71.27941,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Stmt_after_return"
+        }
     },
     "Statements/Control flow/LabeledStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface LabeledStatement <: Statement {\n    type: \"LabeledStatement\";\n    label: Identifier;\n    body: Statement;\n}\n</code></pre>",
-            "<p>A labeled statement, i.e., a statement prefixed by a <code>break</code>/<code>continue</code> label.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface LabeledStatement <: Statement {\n    type: \"LabeledStatement\";\n    label: Identifier;\n    body: Statement;\n}\n</code></pre>",
+                "<p>A labeled statement, i.e., a statement prefixed by a <code>break</code>/<code>continue</code> label.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.25025,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Statement"
+        }
     },
     "Statements/Control flow/BreakStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface BreakStatement <: Statement {\n    type: \"BreakStatement\";\n    label: Identifier | null;\n}\n</code></pre>",
-            "<p>A <code>break</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface BreakStatement <: Statement {\n    type: \"BreakStatement\";\n    label: Identifier | null;\n}\n</code></pre>",
+                "<p>A <code>break</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 64.074036,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break"
+        }
     },
     "Statements/Control flow/ContinueStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ContinueStatement <: Statement {\n    type: \"ContinueStatement\";\n    label: Identifier | null;\n}\n</code></pre>",
-            "<p>A <code>continue</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ContinueStatement <: Statement {\n    type: \"ContinueStatement\";\n    label: Identifier | null;\n}\n</code></pre>",
+                "<p>A <code>continue</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 70.95158,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/continue"
+        }
     },
     "Statements/Choice/IfStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface IfStatement <: Statement {\n    type: \"IfStatement\";\n    test: Expression;\n    consequent: Statement;\n    alternate: Statement | null;\n}\n</code></pre>",
-            "<p>An <code>if</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface IfStatement <: Statement {\n    type: \"IfStatement\";\n    test: Expression;\n    consequent: Statement;\n    alternate: Statement | null;\n}\n</code></pre>",
+                "<p>An <code>if</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.25025,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Statement"
+        }
     },
     "Statements/Choice/SwitchStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface SwitchStatement <: Statement {\n    type: \"SwitchStatement\";\n    discriminant: Expression;\n    cases: [ SwitchCase ];\n}\n</code></pre>",
-            "<p>A <code>switch</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface SwitchStatement <: Statement {\n    type: \"SwitchStatement\";\n    discriminant: Expression;\n    cases: [ SwitchCase ];\n}\n</code></pre>",
+                "<p>A <code>switch</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 73.271675,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch"
+        }
     },
     "Statements/Choice/SwitchStatement/SwitchCase": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface SwitchCase <: Node {\n    type: \"SwitchCase\";\n    test: Expression | null;\n    consequent: [ Statement ];\n}\n</code></pre>",
-            "<p>A <code>case</code> (if <code>test</code> is an <code>Expression</code>) or <code>default</code> (if <code>test === null</code>) clause in the body of a <code>switch</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface SwitchCase <: Node {\n    type: \"SwitchCase\";\n    test: Expression | null;\n    consequent: [ Statement ];\n}\n</code></pre>",
+                "<p>A <code>case</code> (if <code>test</code> is an <code>Expression</code>) or <code>default</code> (if <code>test === null</code>) clause in the body of a <code>switch</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 69.78328,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/switch"
+        }
     },
     "Statements/Exceptions/ThrowStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ThrowStatement <: Statement {\n    type: \"ThrowStatement\";\n    argument: Expression;\n}\n</code></pre>",
-            "<p>A <code>throw</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ThrowStatement <: Statement {\n    type: \"ThrowStatement\";\n    argument: Expression;\n}\n</code></pre>",
+                "<p>A <code>throw</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 70.9615,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/throw"
+        }
     },
     "Statements/Exceptions/TryStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface TryStatement <: Statement {\n    type: \"TryStatement\";\n    block: BlockStatement;\n    handler: CatchClause | null;\n    finalizer: BlockStatement | null;\n}\n</code></pre>",
-            "<p>A <code>try</code> statement. If <code>handler</code> is <code>null</code> then <code>finalizer</code> must be a <code>BlockStatement</code>.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface TryStatement <: Statement {\n    type: \"TryStatement\";\n    block: BlockStatement;\n    handler: CatchClause | null;\n    finalizer: BlockStatement | null;\n}\n</code></pre>",
+                "<p>A <code>try</code> statement. If <code>handler</code> is <code>null</code> then <code>finalizer</code> must be a <code>BlockStatement</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 67.830414,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch"
+        }
     },
     "Statements/Exceptions/TryStatement/CatchClause": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface CatchClause <: Node {\n    type: \"CatchClause\";\n    param: Pattern;\n    body: BlockStatement;\n}\n</code></pre>",
-            "<p>A <code>catch</code> clause following a <code>try</code> block.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface CatchClause <: Node {\n    type: \"CatchClause\";\n    param: Pattern;\n    body: BlockStatement;\n}\n</code></pre>",
+                "<p>A <code>catch</code> clause following a <code>try</code> block.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 55.596645,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch"
+        }
     },
     "Statements/Loops/WhileStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface WhileStatement <: Statement {\n    type: \"WhileStatement\";\n    test: Expression;\n    body: Statement;\n}\n</code></pre>",
-            "<p>A <code>while</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface WhileStatement <: Statement {\n    type: \"WhileStatement\";\n    test: Expression;\n    body: Statement;\n}\n</code></pre>",
+                "<p>A <code>while</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 69.2055,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while"
+        }
     },
     "Statements/Loops/DoWhileStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface DoWhileStatement <: Statement {\n    type: \"DoWhileStatement\";\n    body: Statement;\n    test: Expression;\n}\n</code></pre>",
-            "<p>A <code>do</code>/<code>while</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface DoWhileStatement <: Statement {\n    type: \"DoWhileStatement\";\n    body: Statement;\n    test: Expression;\n}\n</code></pre>",
+                "<p>A <code>do</code>/<code>while</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 105.35796,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/do...while"
+        }
     },
     "Statements/Loops/ForStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ForStatement <: Statement {\n    type: \"ForStatement\";\n    init: VariableDeclaration | Expression | null;\n    test: Expression | null;\n    update: Expression | null;\n    body: Statement;\n}\n</code></pre>",
-            "<p>A <code>for</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ForStatement <: Statement {\n    type: \"ForStatement\";\n    init: VariableDeclaration | Expression | null;\n    test: Expression | null;\n    update: Expression | null;\n    body: Statement;\n}\n</code></pre>",
+                "<p>A <code>for</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.25025,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Statement"
+        }
     },
     "Statements/Loops/ForInStatement": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ForInStatement <: Statement {\n    type: \"ForInStatement\";\n    left: VariableDeclaration |  Pattern;\n    right: Expression;\n    body: Statement;\n}\n</code></pre>",
-            "<p>A <code>for</code>/<code>in</code> statement.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ForInStatement <: Statement {\n    type: \"ForInStatement\";\n    left: VariableDeclaration |  Pattern;\n    right: Expression;\n    body: Statement;\n}\n</code></pre>",
+                "<p>A <code>for</code>/<code>in</code> statement.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 71.781654,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in"
+        }
     },
     "Declarations": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Declaration <: Statement { }\n</code></pre>",
-            "<p>Any declaration node. Note that declarations are considered statements; this is because declarations can appear in any statement context.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Declaration <: Statement { }\n</code></pre>",
+                "<p>Any declaration node. Note that declarations are considered statements; this is because declarations can appear in any statement context.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 63.268497,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements"
+        }
     },
     "Declarations/FunctionDeclaration": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface FunctionDeclaration <: Function, Declaration {\n    type: \"FunctionDeclaration\";\n    id: Identifier;\n}\n</code></pre>",
-            "<p>A function declaration. Note that unlike in the parent interface <code>Function</code>, the <code>id</code> cannot be <code>null</code>.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface FunctionDeclaration <: Function, Declaration {\n    type: \"FunctionDeclaration\";\n    id: Identifier;\n}\n</code></pre>",
+                "<p>A function declaration. Note that unlike in the parent interface <code>Function</code>, the <code>id</code> cannot be <code>null</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 82.59918,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function"
+        }
     },
     "Declarations/VariableDeclaration/VariableDeclarator": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface VariableDeclarator <: Node {\n    type: \"VariableDeclarator\";\n    id: Pattern;\n    init: Expression | null;\n}\n</code></pre>",
-            "<p>A variable declarator.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface VariableDeclarator <: Node {\n    type: \"VariableDeclarator\";\n    id: Pattern;\n    init: Expression | null;\n}\n</code></pre>",
+                "<p>A variable declarator.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 56.170116,
+            "url": "https://developer.mozilla.org/en-US/docs/Glossary/Variable"
+        }
     },
     "Expressions/ThisExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ThisExpression <: Expression {\n    type: \"ThisExpression\";\n}\n</code></pre>",
-            "<p>A <code>this</code> expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ThisExpression <: Expression {\n    type: \"ThisExpression\";\n}\n</code></pre>",
+                "<p>A <code>this</code> expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 64.67179,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this"
+        }
     },
     "Expressions/ArrayExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ArrayExpression <: Expression {\n    type: \"ArrayExpression\";\n    elements: [ Expression | null ];\n}\n</code></pre>",
-            "<p>An array expression. An element might be <code>null</code> if it represents a hole in a sparse array. E.g. <code>[1,,2]</code>.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ArrayExpression <: Expression {\n    type: \"ArrayExpression\";\n    elements: [ Expression | null ];\n}\n</code></pre>",
+                "<p>An array expression. An element might be <code>null</code> if it represents a hole in a sparse array. E.g. <code>[1,,2]</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 54.065323,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Expression_statement"
+        }
     },
     "Expressions/ObjectExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ObjectExpression <: Expression {\n    type: \"ObjectExpression\";\n    properties: [ Property ];\n}\n</code></pre>",
-            "<p>An object expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ObjectExpression <: Expression {\n    type: \"ObjectExpression\";\n    properties: [ Property ];\n}\n</code></pre>",
+                "<p>An object expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 52.546032,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Expression_statement"
+        }
     },
     "Expressions/ObjectExpression/Property": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface Property <: Node {\n    type: \"Property\";\n    key: Literal | Identifier;\n    value: Expression;\n    kind: \"init\" | \"get\" | \"set\";\n}\n</code></pre>",
-            "<p>A literal property in an object expression can have either a string or number as its <code>value</code>. Ordinary property initializers have a <code>kind</code> value <code>\"init\"</code>; getters and setters have the kind values <code>\"get\"</code> and <code>\"set\"</code>, respectively.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface Property <: Node {\n    type: \"Property\";\n    key: Literal | Identifier;\n    value: Expression;\n    kind: \"init\" | \"get\" | \"set\";\n}\n</code></pre>",
+                "<p>A literal property in an object expression can have either a string or number as its <code>value</code>. Ordinary property initializers have a <code>kind</code> value <code>\"init\"</code>; getters and setters have the kind values <code>\"get\"</code> and <code>\"set\"</code>, respectively.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 40.005314,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@property"
+        }
     },
     "Expressions/FunctionExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface FunctionExpression <: Function, Expression {\n    type: \"FunctionExpression\";\n}\n</code></pre>",
-            "<p>A <code>function</code> expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface FunctionExpression <: Function, Expression {\n    type: \"FunctionExpression\";\n}\n</code></pre>",
+                "<p>A <code>function</code> expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 84.68089,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function"
+        }
     },
     "Expressions/Unary operations/UnaryExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface UnaryExpression <: Expression {\n    type: \"UnaryExpression\";\n    operator: UnaryOperator;\n    prefix: boolean;\n    argument: Expression;\n}\n</code></pre>",
-            "<p>A unary operator expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface UnaryExpression <: Expression {\n    type: \"UnaryExpression\";\n    operator: UnaryOperator;\n    prefix: boolean;\n    argument: Expression;\n}\n</code></pre>",
+                "<p>A unary operator expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 70.111824,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus"
+        }
     },
     "Expressions/Unary operations/UnaryExpression/UnaryOperator": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">enum UnaryOperator {\n    \"-\" | \"+\" | \"!\" | \"~\" | \"typeof\" | \"void\" | \"delete\"\n}\n</code></pre>",
-            "<p>A unary operator token.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">enum UnaryOperator {\n    \"-\" | \"+\" | \"!\" | \"~\" | \"typeof\" | \"void\" | \"delete\"\n}\n</code></pre>",
+                "<p>A unary operator token.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 79.12464,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus"
+        }
     },
     "Expressions/Unary operations/UpdateExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface UpdateExpression <: Expression {\n    type: \"UpdateExpression\";\n    operator: UpdateOperator;\n    argument: Expression;\n    prefix: boolean;\n}\n</code></pre>",
-            "<p>An update (increment or decrement) operator expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface UpdateExpression <: Expression {\n    type: \"UpdateExpression\";\n    operator: UpdateOperator;\n    argument: Expression;\n    prefix: boolean;\n}\n</code></pre>",
+                "<p>An update (increment or decrement) operator expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 52.53561,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/update-frequency"
+        }
     },
     "Expressions/Unary operations/UpdateExpression/UpdateOperator": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">enum UpdateOperator {\n    \"++\" | \"--\"\n}\n</code></pre>",
-            "<p>An update (increment or decrement) operator token.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">enum UpdateOperator {\n    \"++\" | \"--\"\n}\n</code></pre>",
+                "<p>An update (increment or decrement) operator token.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 58.30419,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator"
+        }
     },
     "Expressions/Binary operations/BinaryExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface BinaryExpression <: Expression {\n    type: \"BinaryExpression\";\n    operator: BinaryOperator;\n    left: Expression;\n    right: Expression;\n}\n</code></pre>",
-            "<p>A binary operator expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface BinaryExpression <: Expression {\n    type: \"BinaryExpression\";\n    operator: BinaryOperator;\n    left: Expression;\n    right: Expression;\n}\n</code></pre>",
+                "<p>A binary operator expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 49.742023,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Expression_statement"
+        }
     },
     "Expressions/Binary operations/BinaryExpression/BinaryOperator": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">enum BinaryOperator {\n    \"==\" | \"!=\" | \"===\" | \"!==\"\n         | \"<\" | \"<=\" | \">\" | \">=\"\n         | \"<<\" | \">>\" | \">>>\"\n         | \"+\" | \"-\" | \"*\" | \"/\" | \"%\"\n         | \"|\" | \"^\" | \"&\" | \"in\"\n         | \"instanceof\"\n}\n</code></pre>",
-            "<p>A binary operator token.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">enum BinaryOperator {\n    \"==\" | \"!=\" | \"===\" | \"!==\"\n         | \"<\" | \"<=\" | \">\" | \">=\"\n         | \"<<\" | \">>\" | \">>>\"\n         | \"+\" | \"-\" | \"*\" | \"/\" | \"%\"\n         | \"|\" | \"^\" | \"&\" | \"in\"\n         | \"instanceof\"\n}\n</code></pre>",
+                "<p>A binary operator token.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 61.65475,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence"
+        }
     },
     "Expressions/Binary operations/AssignmentExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface AssignmentExpression <: Expression {\n    type: \"AssignmentExpression\";\n    operator: AssignmentOperator;\n    left: Pattern | Expression;\n    right: Expression;\n}\n</code></pre>",
-            "<p>An assignment operator expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface AssignmentExpression <: Expression {\n    type: \"AssignmentExpression\";\n    operator: AssignmentOperator;\n    left: Pattern | Expression;\n    right: Expression;\n}\n</code></pre>",
+                "<p>An assignment operator expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 50.686516,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Expression_statement"
+        }
     },
     "Expressions/Binary operations/AssignmentExpression/AssignmentOperator": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">enum AssignmentOperator {\n    \"=\" | \"+=\" | \"-=\" | \"*=\" | \"/=\" | \"%=\"\n        | \"<<=\" | \">>=\" | \">>>=\"\n        | \"|=\" | \"^=\" | \"&=\"\n}\n</code></pre>",
-            "<p>An assignment operator token.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">enum AssignmentOperator {\n    \"=\" | \"+=\" | \"-=\" | \"*=\" | \"/=\" | \"%=\"\n        | \"<<=\" | \">>=\" | \">>>=\"\n        | \"|=\" | \"^=\" | \"&=\"\n}\n</code></pre>",
+                "<p>An assignment operator token.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 59.253742,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/operator"
+        }
     },
     "Expressions/Binary operations/LogicalExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface LogicalExpression <: Expression {\n    type: \"LogicalExpression\";\n    operator: LogicalOperator;\n    left: Expression;\n    right: Expression;\n}\n</code></pre>",
-            "<p>A logical operator expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface LogicalExpression <: Expression {\n    type: \"LogicalExpression\";\n    operator: LogicalOperator;\n    left: Expression;\n    right: Expression;\n}\n</code></pre>",
+                "<p>A logical operator expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 68.76404,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND"
+        }
     },
     "Expressions/Binary operations/LogicalExpression/LogicalOperator": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">enum LogicalOperator {\n    \"||\" | \"&&\"\n}\n</code></pre>",
-            "<p>A logical operator token.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">enum LogicalOperator {\n    \"||\" | \"&&\"\n}\n</code></pre>",
+                "<p>A logical operator token.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 70.58911,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND"
+        }
     },
     "Expressions/Binary operations/MemberExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface MemberExpression <: Expression, Pattern {\n    type: \"MemberExpression\";\n    object: Expression;\n    property: Expression;\n    computed: boolean;\n}\n</code></pre>",
-            "<p>A member expression. If <code>computed</code> is <code>true</code>, the node corresponds to a computed (<code>a[b]</code>) member expression and <code>property</code> is an <code>Expression</code>. If <code>computed</code> is <code>false</code>, the node corresponds to a static (<code>a.b</code>) member expression and <code>property</code> is an <code>Identifier</code>.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface MemberExpression <: Expression, Pattern {\n    type: \"MemberExpression\";\n    object: Expression;\n    property: Expression;\n    computed: boolean;\n}\n</code></pre>",
+                "<p>A member expression. If <code>computed</code> is <code>true</code>, the node corresponds to a computed (<code>a[b]</code>) member expression and <code>property</code> is an <code>Expression</code>. If <code>computed</code> is <code>false</code>, the node corresponds to a static (<code>a.b</code>) member expression and <code>property</code> is an <code>Identifier</code>.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 49.742023,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/Expression_statement"
+        }
     },
     "Expressions/ConditionalExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface ConditionalExpression <: Expression {\n    type: \"ConditionalExpression\";\n    test: Expression;\n    alternate: Expression;\n    consequent: Expression;\n}\n</code></pre>",
-            "<p>A conditional expression, i.e., a ternary <code>?</code>/<code>:</code> expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface ConditionalExpression <: Expression {\n    type: \"ConditionalExpression\";\n    test: Expression;\n    alternate: Expression;\n    consequent: Expression;\n}\n</code></pre>",
+                "<p>A conditional expression, i.e., a ternary <code>?</code>/<code>:</code> expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 60.52708,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator"
+        }
     },
     "Expressions/CallExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface CallExpression <: Expression {\n    type: \"CallExpression\";\n    callee: Expression;\n    arguments: [ Expression ];\n}\n</code></pre>",
-            "<p>A function or method call expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface CallExpression <: Expression {\n    type: \"CallExpression\";\n    callee: Expression;\n    arguments: [ Expression ];\n}\n</code></pre>",
+                "<p>A function or method call expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 58.904366,
+            "url": "https://developer.mozilla.org/en-US/docs/WebAssembly/Reference/Control_flow/call"
+        }
     },
     "Expressions/NewExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface NewExpression <: Expression {\n    type: \"NewExpression\";\n    callee: Expression;\n    arguments: [ Expression ];\n}\n</code></pre>",
-            "<p>A <code>new</code> expression.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface NewExpression <: Expression {\n    type: \"NewExpression\";\n    callee: Expression;\n    arguments: [ Expression ];\n}\n</code></pre>",
+                "<p>A <code>new</code> expression.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 52.135155,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/class"
+        }
     },
     "Expressions/SequenceExpression": {
-        "/es5.md": [
-            "<pre><code class=\"language-js\">interface SequenceExpression <: Expression {\n    type: \"SequenceExpression\";\n    expressions: [ Expression ];\n}\n</code></pre>",
-            "<p>A sequence expression, i.e., a comma-separated sequence of expressions.</p>"
-        ]
+        "content": {
+            "/es5.md": [
+                "<pre><code class=\"language-js\">interface SequenceExpression <: Expression {\n    type: \"SequenceExpression\";\n    expressions: [ Expression ];\n}\n</code></pre>",
+                "<p>A sequence expression, i.e., a comma-separated sequence of expressions.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 52.94583,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/::-moz-page-sequence"
+        }
     },
     "Type Annotations": {
-        "/extensions/type-annotations.md": [
-            "<pre><code class=\"language-js\">interface TypeAnnotation <: Node { }\n</code></pre>",
-            "<p>Any type annotation.</p>"
-        ]
+        "content": {
+            "/extensions/type-annotations.md": [
+                "<pre><code class=\"language-js\">interface TypeAnnotation <: Node { }\n</code></pre>",
+                "<p>Any type annotation.</p>"
+            ]
+        },
+        "mdn": {
+            "score": 76.53332,
+            "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Annotations"
+        }
     }
 }

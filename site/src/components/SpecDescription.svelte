@@ -3,9 +3,14 @@
 
     export let title;
     export let content;
+    export let mdn;
 
     let slashes = title.split("/");
     let HeadingTag = "h" + (slashes.length+1)/* + "  class=text-gradient"*/;
+    const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 1,
+    });
 </script>
 
 <li>
@@ -17,6 +22,10 @@
         {@const formattedFileName = file.substring(1, file.length-3)}
         <SpecFileContent formattedFileName={formattedFileName} fileContent={content[file]}></SpecFileContent>
     {/each}
+    {#if mdn.score > 30}
+        <div>Related MDN article: <a href={mdn.url} target="_blank">{mdn.url}</a></div>
+        <small>(Relation score: {formatter.format(mdn.score)})</small>
+    {/if}
 </li>
 <style>
     h1,h2,h3,h4,h5,h6 {

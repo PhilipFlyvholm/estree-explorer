@@ -38,7 +38,7 @@
     {#each Object.keys(estree) as key}
         {#if acceptableKeys.includes(key)}
             {@const item = estree[key]}
-            <SpecDescription title={key} content={item} />
+            <SpecDescription title={key} content={item.content} mdn={item.mdn}/>
         {/if}
     {/each}
 {:else}
