@@ -2,7 +2,10 @@
     
     export let formattedFileName;
     export let fileContent;
-    
+    let html = ""
+    fileContent.forEach(content => {
+        html += content;
+    });
 
     // Ref: https://stackoverflow.com/a/3426956
     function hashCode(str) {
@@ -27,9 +30,7 @@
 <div class="file">
     <p class="pill" style={pillColor}>{formattedFileName}</p>
     <div class="file-content">
-        {#each fileContent as content}
-            <div class="content-container">{@html content}</div>
-        {/each}
+        {@html html}
     </div>
 </div>
 
@@ -49,6 +50,12 @@
         padding: 0.1rem 2rem;
         margin: 1rem 0;
         border-radius: 10px;
+    }
+    :global(details){
+        margin: 1rem 0;
+        background: #0d1117;
+        padding: 1em;
+        border-radius: 15px;
     }
     :global(code){
         border-radius: 15px;

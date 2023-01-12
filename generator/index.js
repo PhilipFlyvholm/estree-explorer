@@ -13,7 +13,10 @@ function findAllFilesInDir(dirPath) {
     let dir = fs.readdirSync(dirPath);
     for (const key in dir) {
         let file = dir[key];
-        if (file.startsWith(".") || ignore.includes(file)) continue;
+        if (file.startsWith(".") || ignore.includes(file)){
+            console.log("Ignoring file: ", file);
+            continue;
+        }
         const filePath = path.join(dirPath, file);
         let stats = fs.statSync(filePath);
         if (stats.isDirectory()) {
@@ -131,11 +134,10 @@ class Parser {
         });
         return text;
     }
-
-    parseParagraf = () => {
-        let paragraf = "<p>";
+    parseParagrafInternal = () => {
+        let paragraf = "";
         this.pos++;
-        while ((this.tree.length <= this.pos) || this.tree[this.pos].type != "paragraph_close") {
+        while ((this.tree.length > this.pos) && this.tree[this.pos].type != "paragraph_close") {
             switch (this.tree[this.pos].type) {
                 case "inline":
                     paragraf += this.parseInline(this.tree[this.pos].children);
@@ -146,19 +148,21 @@ class Parser {
             }
             this.pos++;
         }
-        paragraf += "</p>";
+        if(!paragraf.startsWith("<")) paragraf = `<p>${paragraf}</p>`;
+        return paragraf;
+    }
+    parseParagraf = () => {
+        const paragraf = this.parseParagrafInternal();
         if (this.stack.length === 0) {
             this.description.push(paragraf);
         } else {
             this.current().content.push(paragraf);
         }
-
-        //return;
     }
     parseHeading = (token) => {
         let title = "";
         this.pos++;
-        while ((this.tree.length <= this.pos) || this.tree[this.pos].type != "heading_close") {
+        while ((this.tree.length > this.pos) && this.tree[this.pos].type != "heading_close") {
             switch (this.tree[this.pos].type) {
                 case "inline":
                     title += this.tree[this.pos].content;
@@ -198,6 +202,47 @@ class Parser {
         }
     }
 
+    parseListInternal = (token) => {
+        let content = `<${token.tag}>`;
+        
+        this.pos++;
+        token = this.tree[this.pos];
+        while ((this.tree.length > this.pos) && token.type != "bullet_list_close") {
+            switch (token.type) {
+                case "paragraph_open":
+                    content += `${this.parseParagrafInternal()}`;
+                    break;
+                case "bullet_list_open":
+                    content += this.parseListInternal(token)
+                    break;
+                case "list_item_open":
+                    //Ignore
+                    content += '<li>';
+                    break;
+                case "list_item_close":
+                    content += '</li>';
+                    break;
+                default:
+                    console.log("Unsupported child of list: ", token.type);
+                    break;
+            }
+            this.pos++;
+            token = this.tree[this.pos];
+        }
+        content += `</${token.tag}>`;
+        
+        return content;
+    }
+    parseList = (token) => {
+        const content = this.parseListInternal(token);
+        if (this.stack.length === 0) {
+            this.description.push(content);
+        } else {
+            this.current().content.push(content);
+        }
+        return;
+    }
+
     parse = () => {
         while (this.tree.length > this.pos) {
             const token = this.tree[this.pos];
@@ -213,11 +258,9 @@ class Parser {
                 case "fence":
                     this.parseFence(token);
                     break;
-                case "list_item_open":
-                case "list_item_close":
                 case "bullet_list_open":
-                case "bullet_list_close":
                     //Ignore
+                    this.parseList(token);
                     break;
                 default:
                     console.log("Not implemented", token.type);
@@ -252,12 +295,17 @@ function mergeKnownInfo(parsedFiles, parent = "", json = {}) {
 }
 
 async function getMDNLinks(sections) {
-    // https://developer.mozilla.org/api/v1/search?q=Expressions/ConditionalExpression&locale=en-US
-    console.log("Fetching from MDN");
+    // To skip this part then run: npm run generate -- --skip-mdn
+    const skipMDN = process.argv.indexOf('--skip-mdn') !== -1;
+    if(skipMDN) console.log("Skipping MDN..."); else console.log("Fetching from MDN");
     const total = Object.keys(sections).length;
     let i = 1;
     await Promise.all(Object.keys(sections).map(async (key) => {
         const val = sections[key];
+        if(skipMDN){
+            sections[key] = {content: val, mdn: {score: null, url: null}}
+            return;
+        }
         const areas = key.split("/");
         let url = new URL("https://developer.mozilla.org/api/v1/search");
         url.searchParams.set('q', areas[areas.length - 1]);
@@ -270,13 +318,17 @@ async function getMDNLinks(sections) {
         const mdn_url = "https://developer.mozilla.org" + document.mdn_url;
         const score = document.score;
         sections[key] = {content: val, mdn: {score: score, url: mdn_url}}
-        console.log(`Processed ${i++} calls out of ${total}`);
+        process.stdout.write(`\rProcessed ${i++} calls out of ${total}`);
+
     }));
     return sections;
 }
 
 async function main(){
+    
+    console.log("Finding files...");
     const filesFound = findAllFilesInDir(fullPath);
+    console.log("Found these files: ", filesFound.toString());
     let parsedFiles = []
     //parsedFiles = parseMarkdown(readFileToString("./estree/es2015.md"), "/estree/es2015.md");
     

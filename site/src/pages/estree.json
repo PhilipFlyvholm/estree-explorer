@@ -67,7 +67,7 @@
                 "<p>A <code>super</code> pseudo-expression.</p>",
                 "<pre><code class=\"language-js\">interface SpreadElement <: Node {\n    type: \"SpreadElement\";\n    argument: Expression;\n}\n\nextend interface ArrayExpression {\n    elements: [ Expression | SpreadElement | null ];\n}\n\nextend interface NewExpression {\n    arguments: [ Expression | SpreadElement ];\n}\n</code></pre>",
                 "<p>Spread expression, e.g., <code>[head, ...iter, tail]</code>, <code>f(head, ...iter, ...tail)</code>.</p>",
-                "<p><strong>FIXME:</strong> This describes the Esprima and Acorn behaviors, which is not currently aligned with the SpiderMonkey behavior.</p>",
+                "<strong>FIXME:</strong> This describes the Esprima and Acorn behaviors, which is not currently aligned with the SpiderMonkey behavior.",
                 "<pre><code class=\"language-js\">extend interface AssignmentExpression {\n    left: Pattern;\n}\n</code></pre>",
                 "<p>Note that pre-ES6 code was allowed <a href=https://github.com/estree/estree/pull/20#issuecomment-74584758>to pass references around</a> and so <code>left</code> was much more liberal; an implementation might choose to continue using <a href=https://github.com/estree/estree/blob/master/es5.md#assignmentexpression>old definition</a> if it needs to support such legacy code.</p>",
                 "<pre><code class=\"language-js\">extend interface Property {\n    key: Expression;\n    method: boolean;\n    shorthand: boolean;\n    computed: boolean;\n}\n</code></pre>"
@@ -203,10 +203,7 @@
             ],
             "/es2022.md": [
                 "<p>These language extensions cover following class features proposals:</p>",
-                "<p><a href=https://github.com/tc39/proposal-class-fields>Class Fields</a></p>",
-                "<p><a href=https://github.com/tc39/proposal-static-class-features/>Static Class Features</a></p>",
-                "<p><a href=https://github.com/tc39/proposal-private-methods>Private Methods</a></p>",
-                "<p><a href=https://github.com/tc39/proposal-class-static-block>Static Initialization Blocks</a>.</p>"
+                "<ul><li><a href=https://github.com/tc39/proposal-class-fields>Class Fields</a></li><li><a href=https://github.com/tc39/proposal-static-class-features/>Static Class Features</a></li><li><a href=https://github.com/tc39/proposal-private-methods>Private Methods</a></li><li><a href=https://github.com/tc39/proposal-class-static-block>Static Initialization Blocks</a>.</li></ul>"
             ]
         },
         "mdn": {
@@ -235,7 +232,7 @@
             ],
             "/es2022.md": [
                 "<pre><code class=\"language-js\">extend interface MethodDefinition {\n    key: Expression | PrivateIdentifier;\n}\n</code></pre>",
-                "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code> and <code>kind</code> can not be <code>\"constructor\"</code>.</p>"
+                "<ul><li><p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code> and <code>kind</code> can not be <code>\"constructor\"</code>.</p></li></ul>"
             ]
         },
         "mdn": {
@@ -269,7 +266,7 @@
         "content": {
             "/es2015.md": [
                 "<pre><code class=\"language-js\">interface MetaProperty <: Expression {\n    type: \"MetaProperty\";\n    meta: Identifier;\n    property: Identifier;\n}\n</code></pre>",
-                "<p><code>MetaProperty</code> node represents <code>new.target</code> meta property in ES2015. In the future, it will represent other meta properties as well.</p>"
+                "<ul><li><code>MetaProperty</code> node represents <code>new.target</code> meta property in ES2015. In the future, it will represent other meta properties as well.</li></ul>"
             ]
         },
         "mdn": {
@@ -358,7 +355,7 @@
             "/es2015.md": [
                 "<pre><code class=\"language-js\">interface ExportNamedDeclaration <: ImportOrExportDeclaration {\n    type: \"ExportNamedDeclaration\";\n    declaration: Declaration | null;\n    specifiers: [ ExportSpecifier ];\n    source: Literal | null;\n}\n</code></pre>",
                 "<p>An export named declaration, e.g., <code>export {foo, bar};</code>, <code>export {foo} from \"mod\";</code> or <code>export var foo = 1;</code>.</p>",
-                "<p><em>Note: Having <code>declaration</code> populated with non-empty <code>specifiers</code> or non-null <code>source</code> results in an invalid state.</em></p>"
+                "<em>Note: Having <code>declaration</code> populated with non-empty <code>specifiers</code> or non-null <code>source</code> results in an invalid state.</em>"
             ]
         },
         "mdn": {
@@ -374,7 +371,7 @@
             ],
             "/es2022.md": [
                 "<pre><code class=\"language-js\">extend interface ExportSpecifier <: ModuleSpecifier {\n    local: Identifier | Literal;\n    exported: Identifier | Literal;\n}\n</code></pre>",
-                "<p><code>local</code> can be <code>Literal</code> only if the <code>source</code> of the <code>ExportNamedDeclaration</code> of the parent of this node is not <code>null</code>. e.g. <code>export { \"foo\" as \"foo\" } from \"mod\"</code> is valid, <code>export { \"foo\" as \"foo\" }</code> is invalid.</p>",
+                "<code>local</code> can be <code>Literal</code> only if the <code>source</code> of the <code>ExportNamedDeclaration</code> of the parent of this node is not <code>null</code>. e.g. <code>export { \"foo\" as \"foo\" } from \"mod\"</code> is valid, <code>export { \"foo\" as \"foo\" }</code> is invalid.",
                 "<p>If <code>exported</code>/<code>local</code> is <code>Literal</code>, <code>exported.value</code>/<code>local.value</code> must be a string without lone surrogate.</p>"
             ]
         },
@@ -459,7 +456,7 @@
         "content": {
             "/es2018.md": [
                 "<pre><code class=\"language-js\">extend interface ForOfStatement {\n  await: boolean;\n}\n</code></pre>",
-                "<p><code>for-await-of</code> statements, e.g., <code>for await (const x of xs) {</code></p>"
+                "<code>for-await-of</code> statements, e.g., <code>for await (const x of xs) {</code>"
             ],
             "/es5.md": [
                 "<pre><code class=\"language-js\">interface Statement <: Node { }\n</code></pre>",
@@ -515,7 +512,7 @@
         "content": {
             "/es2020.md": [
                 "<pre><code class=\"language-js\">extend interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp | bigint;\n}\n</code></pre>",
-                "<p><code>value</code> property can be a <code>BigInt</code> value to represent <code>BigInt</code> literals<br/>such as <code>100n</code>.</p>"
+                "<ul><li><code>value</code> property can be a <code>BigInt</code> value to represent <code>BigInt</code> literals<br/>such as <code>100n</code>.</li></ul>"
             ],
             "/es5.md": [
                 "<pre><code class=\"language-js\">interface Literal <: Expression {\n    type: \"Literal\";\n    value: string | boolean | null | number | RegExp;\n}\n</code></pre>",
@@ -531,8 +528,7 @@
         "content": {
             "/es2020.md": [
                 "<pre><code class=\"language-js\">interface BigIntLiteral <: Literal {\n  bigint: string;\n}\n</code></pre>",
-                "<p><code>bigint</code> property is the string representation of the <code>BigInt</code> value.<br/>It doesn't include the suffix <code>n</code>.</p>",
-                "<p>In environments that don't support <code>BigInt</code> values, <code>value</code> property will be<br/><code>null</code> as the <code>BigInt</code> value can't be represented natively.</p>"
+                "<ul><li><code>bigint</code> property is the string representation of the <code>BigInt</code> value.<br/>It doesn't include the suffix <code>n</code>.</li><li><p>In environments that don't support <code>BigInt</code> values, <code>value</code> property will be<br/><code>null</code> as the <code>BigInt</code> value can't be represented natively.</p></li></ul>"
             ]
         },
         "mdn": {
@@ -544,13 +540,8 @@
         "content": {
             "/es2020.md": [
                 "<pre><code class=\"language-js\">interface ChainExpression <: Expression {\n  type: \"ChainExpression\";\n  expression: ChainElement;\n}\n\ninterface ChainElement <: Node {\n  optional: boolean;\n}\n\nextend interface CallExpression <: ChainElement {}\n\nextend interface MemberExpression <: ChainElement {}\n</code></pre>",
-                "<p>The <code>ChainExpression</code> node is the root of optional chaining.</p>",
-                "<p>The <code>ChainExpression</code> node contains one or more <code>ChainElement</code> nodes that are <code>optional:true</code>. On the other hand, <code>ChainElement</code> nodes that are <code>optional:true</code> belong to a <code>ChainExpression</code> node.</p>",
-                "<p>For backward compatibility, if all <code>ChainElement</code> nodes of a chain are <code>optional:false</code>, the <code>ChainExpression</code> node isn't inserted as the root of the chain.</p>",
-                "<p>Evaluation:</p>",
-                "<p>The <code>ChainExpression</code> node is evaluated to the result of the <code>expression</code> property's node.</p>",
-                "<p>If the <code>callee|object</code> property is evaluated to nullish and the <code>optional</code> property is <code>true</code>, then the node and ancestor nodes are skipped until the closest <code>ChainExpression</code> node, and the result of the <code>ChainExpression</code> node becomes <code>undefined</code>.</p>",
-                "<p><details><summary>For Examples:</summary></p>",
+                "<ul><li><p>The <code>ChainExpression</code> node is the root of optional chaining.</p></li><li><p>The <code>ChainExpression</code> node contains one or more <code>ChainElement</code> nodes that are <code>optional:true</code>. On the other hand, <code>ChainElement</code> nodes that are <code>optional:true</code> belong to a <code>ChainExpression</code> node.</p></li><li><p>For backward compatibility, if all <code>ChainElement</code> nodes of a chain are <code>optional:false</code>, the <code>ChainExpression</code> node isn't inserted as the root of the chain.</p></li><li><p>Evaluation:</p><ul><li><p>The <code>ChainExpression</code> node is evaluated to the result of the <code>expression</code> property's node.</p></li><li><p>If the <code>callee|object</code> property is evaluated to nullish and the <code>optional</code> property is <code>true</code>, then the node and ancestor nodes are skipped until the closest <code>ChainExpression</code> node, and the result of the <code>ChainExpression</code> node becomes <code>undefined</code>.</p></li></ul></li></ul>",
+                "<details><summary>For Examples:</summary>",
                 "<pre><code class=\"language-jsonc\">// obj.aaa.bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
                 "<pre><code class=\"language-jsonc\">// obj.aaa?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
                 "<pre><code class=\"language-jsonc\">// obj?.aaa.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": false,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
@@ -559,7 +550,7 @@
                 "<pre><code class=\"language-jsonc\">// (obj.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": false,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
                 "<pre><code class=\"language-jsonc\">// (obj?.aaa).bbb\n{\n  \"type\": \"MemberExpression\",\n  \"optional\": false,\n  \"object\": {\n    \"type\": \"ChainExpression\",\n    \"expression\": {\n      \"type\": \"MemberExpression\",\n      \"optional\": true,\n      \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n      \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n    }\n  },\n  \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n}\n</code></pre>",
                 "<pre><code class=\"language-jsonc\">// (obj?.aaa)?.bbb\n{\n  \"type\": \"ChainExpression\",\n  \"expression\": {\n    \"type\": \"MemberExpression\",\n    \"optional\": true,\n    \"object\": {\n      \"type\": \"ChainExpression\",\n      \"expression\": {\n        \"type\": \"MemberExpression\",\n        \"optional\": true,\n        \"object\": { \"type\": \"Identifier\", \"name\": \"obj\" },\n        \"property\": { \"type\": \"Identifier\", \"name\": \"aaa\" }\n      }\n    },\n    \"property\": { \"type\": \"Identifier\", \"name\": \"bbb\" }\n  }\n}\n</code></pre>",
-                "<p></details></p>"
+                "</details>"
             ]
         },
         "mdn": {
@@ -571,7 +562,7 @@
         "content": {
             "/es2020.md": [
                 "<pre><code class=\"language-js\">interface ImportExpression <: Expression {\n  type: \"ImportExpression\";\n  source: Expression;\n}\n</code></pre>",
-                "<p><code>ImportExpression</code> node represents Dynamic Imports such as <code>import(source)</code>.<br/>The <code>source</code> property is the importing source as similar to <a href=es2015.md#importdeclaration>ImportDeclaration</a><br/>node, but it can be an arbitrary expression node.</p>"
+                "<ul><li><code>ImportExpression</code> node represents Dynamic Imports such as <code>import(source)</code>.<br/>The <code>source</code> property is the importing source as similar to <a href=es2015.md#importdeclaration>ImportDeclaration</a><br/>node, but it can be an arbitrary expression node.</li></ul>"
             ]
         },
         "mdn": {
@@ -583,7 +574,7 @@
         "content": {
             "/es2020.md": [
                 "<pre><code class=\"language-js\">extend enum LogicalOperator {\n    \"??\"\n}\n</code></pre>",
-                "<p>The <code>operator</code> property of the <code>LogicalExpression</code> node can be <code>\"??\"</code> to represent <a href=https://github.com/tc39/proposal-nullish-coalescing>Nullish Coalescing</a> syntax.</p>"
+                "<ul><li><p>The <code>operator</code> property of the <code>LogicalExpression</code> node can be <code>\"??\"</code> to represent <a href=https://github.com/tc39/proposal-nullish-coalescing>Nullish Coalescing</a> syntax.</p></li></ul>"
             ]
         },
         "mdn": {
@@ -618,8 +609,7 @@
         "content": {
             "/es2021.md": [
                 "<pre><code class=\"language-js\">extend enum AssignmentOperator {\n    \"||=\" | \"&&=\" | \"??=\"\n}\n</code></pre>",
-                "<p><a href=../es5.md#AssignmentExpression>AssignmentExpression</a> node has short-circuiting behavior if the <code>operator</code><br/>property is any of <code>\"||=\"</code>,<code>\"&&=\"</code>, and <code>\"??=\"</code>.</p>",
-                "<p>See <a href=https://github.com/tc39/proposal-logical-assignment>Logical Assignment Operators</a> for details.</p>"
+                "<ul><li><a href=../es5.md#AssignmentExpression>AssignmentExpression</a> node has short-circuiting behavior if the <code>operator</code><br/>property is any of <code>\"||=\"</code>,<code>\"&&=\"</code>, and <code>\"??=\"</code>.</li><li><p>See <a href=https://github.com/tc39/proposal-logical-assignment>Logical Assignment Operators</a> for details.</p></li></ul>"
             ]
         },
         "mdn": {
@@ -631,7 +621,7 @@
         "content": {
             "/es2022.md": [
                 "<pre><code class=\"language-js\">interface PropertyDefinition <: Node {\n    type: \"PropertyDefinition\";\n    key: Expression | PrivateIdentifier;\n    value: Expression | null;\n    computed: boolean;\n    static: boolean;\n}\n</code></pre>",
-                "<p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>"
+                "<ul><li><p>When <code>key</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p></li></ul>"
             ]
         },
         "mdn": {
@@ -645,8 +635,7 @@
                 "<pre><code class=\"language-js\">interface PrivateIdentifier <: Node {\n    type: \"PrivateIdentifier\";\n    name: string;\n}\n</code></pre>",
                 "<p>A private identifier refers to private class elements. For a private name <code>#a</code>, its <code>name</code> is <code>a</code>.</p>",
                 "<pre><code class=\"language-js\">extend interface MemberExpression {\n    property: Expression | PrivateIdentifier;\n}\n</code></pre>",
-                "<p>When <code>property</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p>",
-                "<p>When <code>object</code> is a <code>Super</code>, <code>property</code> can not be a <code>PrivateIdentifier</code>.</p>"
+                "<ul><li><p>When <code>property</code> is a <code>PrivateIdentifier</code>, <code>computed</code> must be <code>false</code>.</p></li><li><p>When <code>object</code> is a <code>Super</code>, <code>property</code> can not be a <code>PrivateIdentifier</code>.</p></li></ul>"
             ]
         },
         "mdn": {
@@ -670,8 +659,7 @@
         "content": {
             "/es2022.md": [
                 "<pre><code class=\"language-js\">extend interface BinaryExpression <: Expression {\n    left: Expression | PrivateIdentifier;\n}\n</code></pre>",
-                "<p><code>left</code> can be a private identifier (e.g. <code>#foo</code>) when <code>operator</code> is <code>\"in\"</code>.</p>",
-                "<p>See <a href=https://github.com/tc39/proposal-private-fields-in-in>Ergonomic brand checks for Private Fields</a> for details.</p>"
+                "<ul><li><code>left</code> can be a private identifier (e.g. <code>#foo</code>) when <code>operator</code> is <code>\"in\"</code>.</li><li><p>See <a href=https://github.com/tc39/proposal-private-fields-in-in>Ergonomic brand checks for Private Fields</a> for details.</p></li></ul>"
             ]
         },
         "mdn": {

@@ -4,10 +4,12 @@
     import SpecDescription from "./SpecDescription.svelte";
     import hljs from "highlight.js";
     import javascript from "highlight.js/lib/languages/javascript";
+    import jsonc from "highlight.js/lib/languages/json";
     import "highlight.js/styles/github-dark.css";
     import { onMount,tick } from "svelte";
 
     hljs.registerLanguage('js', javascript);
+    hljs.registerLanguage('jsonc', jsonc);
     let query = '';
     let acceptableKeys = Object.keys(estree);
     async function search() {
