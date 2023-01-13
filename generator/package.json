@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "highlight.js": "^11.6.0",
     "markdown": "^0.5.0",
     "markdown-it": "^13.0.1",
     "node-fetch": "^3.3.0"

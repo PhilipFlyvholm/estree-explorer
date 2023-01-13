@@ -3,6 +3,10 @@ const path = require('path');
 const md = require("markdown").markdown;
 const MarkdownIt = require('markdown-it');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const hljs = require('highlight.js/lib/core');
+hljs.registerLanguage('js', require('highlight.js/lib/languages/javascript'));
+hljs.registerLanguage('jsonc', require('highlight.js/lib/languages/json'));
+
 
 
 const fullPath = path.join(__dirname, 'estree');
@@ -194,7 +198,8 @@ class Parser {
 
     parseFence = (token) => {
         let lang = token.info ?? "unknown";
-        let code = `<pre><code class="language-${lang}">${token.content}</code></pre>`
+        let highlightedCode = hljs.highlight(token.content, {language: lang}).value;
+        let code = `<pre><code class="language-${lang} hljs">${highlightedCode}</code></pre>`
         if (this.stack.length === 0) {
             this.description.push(code);
         } else {
