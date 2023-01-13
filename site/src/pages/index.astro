@@ -11,12 +11,12 @@ import SvelteContainer from "../components/SvelteContainer.svelte";
 				Welcome to <span class="text-gradient">ESTree explorer</span>
 			</h1>
 			<a href="https://github.com/philipflyvholm/estree-explorer"
-				><img src="./GitHub-Mark-Light-32px.png" alt="Github logo" />
+				><img src="./GitHub-Mark-Light-32px.png" width="32px" height="32px" alt="Github logo" />
 			</a>
 		</div>
 
 		<ul role="list" class="link-card-flex">
-			<SvelteContainer client:load estree={estree} />
+			<SvelteContainer client:idle estree={estree} />
 		</ul>
 	</main>
 </Layout>
@@ -25,6 +25,9 @@ import SvelteContainer from "../components/SvelteContainer.svelte";
 	main {
 		margin: auto;
 		padding: 1.5rem;
+		width: 100%;
+    	word-break: break-word;
+		box-sizing: border-box;
 	}
 	.link-card-flex {
 		display: flex;
@@ -56,5 +59,10 @@ import SvelteContainer from "../components/SvelteContainer.svelte";
 		-webkit-text-fill-color: transparent;
 		background-size: 400%;
 		background-position: 0%;
+	}
+	
+	pre code{
+		display: block;
+		overflow-x: auto;
 	}
 </style>
